@@ -117,28 +117,28 @@
         self.replyButton.enabled = self.retweetButton.enabled = self.favoriteButton.enabled = YES;
     }
 
-    if (tweet.retweetCount > 0) {
-        self.retweetCountLabel.text = [NSString stringWithFormat:@"%ld", tweet.retweetCount];
+    if ([tweet.retweetCount longValue] > 0) {
+        self.retweetCountLabel.text = [NSString stringWithFormat:@"%ld", [tweet.retweetCount longValue]];
     }
     else {
         self.retweetCountLabel.text = @"";
     }
 
-    if (tweetToDisplay.favoriteCount > 0) {
-        self.favoriteCountLabel.text = [NSString stringWithFormat:@"%ld", tweetToDisplay.favoriteCount];
+    if ([tweetToDisplay.favoriteCount longValue] > 0) {
+        self.favoriteCountLabel.text = [NSString stringWithFormat:@"%ld", [tweetToDisplay.favoriteCount longValue]];
     }
     else {
         self.favoriteCountLabel.text = @"";
     }
         
-    if (tweet.retweeted) {
+    if ([tweet.retweeted boolValue]) {
         self.retweetCountLabel.textColor = [UIColor greenColor];
     }
     else {
         self.retweetCountLabel.textColor = [UIColor grayColor];
     }
         
-    if (tweet.favorited) {
+    if ([tweet.favorited boolValue]) {
         self.favoriteCountLabel.textColor = [UIColor orangeColor];
     }
     else {
@@ -169,7 +169,7 @@
         self.retweetCountLabel.textColor = [UIColor grayColor];
     }
     if (_tweet.retweetCount > 0) {
-        self.retweetCountLabel.text = [NSString stringWithFormat:@"%ld", _tweet.retweetCount];
+        self.retweetCountLabel.text = [NSString stringWithFormat:@"%ld", [_tweet.retweetCount longValue]];
     } else {
         self.retweetCountLabel.text = @"";
     }
@@ -191,7 +191,7 @@
         self.favoriteCountLabel.textColor = [UIColor grayColor];
     }
     if (tweetToFavorite.favoriteCount > 0) {
-        self.favoriteCountLabel.text = [NSString stringWithFormat:@"%ld", tweetToFavorite.favoriteCount];
+        self.favoriteCountLabel.text = [NSString stringWithFormat:@"%ld", [tweetToFavorite.favoriteCount longValue]];
     } else {
         self.favoriteCountLabel.text = @"";
     }

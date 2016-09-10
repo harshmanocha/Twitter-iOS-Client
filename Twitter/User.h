@@ -2,22 +2,25 @@
 //  User.h
 //  Twitter
 //
-//  Created by harsh.man on 06/09/16.
+//  Created by harsh.man on 09/09/16.
 //  Copyright © 2016 Directi. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
-extern NSString * const UserDidLoginNotification;
-extern NSString * const UserDidLogoutNotification;
+@class Tweet;
 
-@interface User : NSObject
+NS_ASSUME_NONNULL_BEGIN
 
-@property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *screenname;
-@property (nonatomic, strong) NSString *profileImageUrl;
-@property (nonatomic, strong) NSString *tagline;
+@interface User : NSManagedObject
 
-- (id)initWithDictionary:(NSDictionary *)dictionary;
+// Insert code here to declare functionality of your managed object subclass
++ (User *)userWithDictionary:(NSDictionary *)dictionary
+      inManagedObjectContext:(NSManagedObjectContext *)context;
 
 @end
+
+NS_ASSUME_NONNULL_END
+
+#import "User+CoreDataProperties.h"

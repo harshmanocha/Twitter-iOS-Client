@@ -2,34 +2,51 @@
 //  User.m
 //  Twitter
 //
-//  Created by harsh.man on 06/09/16.
+//  Created by harsh.man on 09/09/16.
 //  Copyright © 2016 Directi. All rights reserved.
 //
 
 #import "User.h"
-
-NSString * const UserDidLoginNotification = @"UserDidLoginNotification";
-NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
-
-@interface User()
-
-@property (nonatomic, strong) NSDictionary *dictionary;
-
-@end
+#import "Tweet.h"
 
 @implementation User
 
-- (id) initWithDictionary:(NSDictionary *)dictionary  {
-    self = [super init];
-    if (self) {
-        self.dictionary = dictionary;
-        self.name = dictionary[@"name"];
-        self.screenname = dictionary[@"screen_name"];
-        self.profileImageUrl = dictionary[@"profile_image_url"];
-        self.tagline = dictionary[@"description"];
+// Insert code here to add functionality to your managed object subclass
+
++ (User *)userWithDictionary:(NSDictionary *)dictionary inManagedObjectContext:(NSManagedObjectContext *)context {
+    User *user = nil;
+    
+    
+    NSString *screenName = dictionary[@"screen_name"];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"User"];
+    request.predicate = [NSPredicate predicateWithFormat:@"screenname = %@", screenName];
+    
+    NSError *error;
+    NSArray *matches = [context executeFetchRequest:request error:&error];
+    
+    if (!matches || ([matches count] > 1)) {
+        // handle error
+    }
+    else if (![matches count]) {
+        user = [NSEntityDescription insertNewObjectForEntityForName:@"User"
+                                             inManagedObjectContext:context];
+        user.screenname = screenName;
+        user.name = dictionary[@"name"];
+        user.profileImageUrl = dictionary[@"profile_image_url"];
+        user.tagline = dictionary[@"description"];
+        
+        NSError *error = nil;
+        // Save the object to persistent store
+        if (![context save:&error]) {
+            NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
+        }
+    }
+    else {
+        user = [matches lastObject];
     }
     
-    return self;
+    
+    return user;
 }
 
 @end

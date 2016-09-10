@@ -8,12 +8,22 @@
 
 #import "TimelineViewController.h"
 #import "Tweet.h"
+#import "User.h"
 
 @interface TimelineViewController ()
 
 @end
 
 @implementation TimelineViewController
+
+- (NSManagedObjectContext *)managedObjectContext {
+    NSManagedObjectContext *context = nil;
+    id delegate = [[UIApplication sharedApplication] delegate];
+    if ([delegate performSelector:@selector(managedObjectContext)]) {
+        context = [delegate managedObjectContext];
+    }
+    return context;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -41,6 +51,18 @@
     [self refreshTweets];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    // Fetch the devices from persistent data store
+    NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Tweet"];
+    self.tweets = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
+    
+    [self.tableView reloadData];
+}
+
 - (void)refreshTweets {
     
     NSError *clientError;
@@ -56,7 +78,8 @@
                 NSError *jsonError;
                 NSArray *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
                 
-                self.tweets = [Tweet tweetsWithArray:json];
+                self.tweets = [Tweet loadTweetsFromArray:json
+                                intoManagedObjectContext:[self managedObjectContext]];
                 [self.tweetTableView reloadData];
             }
             else {
@@ -110,7 +133,8 @@
                 NSError *jsonError;
                 NSArray *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
                 
-                NSArray *moreTweets = [Tweet tweetsWithArray:json];
+                NSArray *moreTweets = [Tweet loadTweetsFromArray:json
+                                        intoManagedObjectContext:[self managedObjectContext]];
                 if (moreTweets.count > 0) {
                     NSLog(@"Got %lu more tweets", moreTweets.count);
                     NSMutableArray *temp = [NSMutableArray arrayWithArray:self.tweets];

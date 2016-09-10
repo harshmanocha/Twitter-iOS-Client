@@ -2,33 +2,35 @@
 //  Tweet.h
 //  Twitter
 //
-//  Created by harsh.man on 06/09/16.
+//  Created by harsh.man on 09/09/16.
 //  Copyright © 2016 Directi. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
+#import <TwitterKit/twitterKit.h>
 #import "User.h"
-#import "TwitterKit/TwitterKit.h"
 
-@interface Tweet : NSObject
+@class User;
 
-@property (nonatomic, strong) NSString *text;
-@property (nonatomic, strong) NSDate *createdAt;
-@property (nonatomic, strong) User *user;
-@property (nonatomic) NSInteger retweetCount;
-@property (nonatomic) NSInteger favoriteCount;
-@property (nonatomic) BOOL retweeted;
-@property (nonatomic) BOOL favorited;
-@property (nonatomic, strong) NSString *idStr;
-@property (nonatomic, strong) NSString *replyToIdStr;
-@property (nonatomic, strong) NSString *retweetIdStr;
-@property (nonatomic, strong) Tweet *retweetedTweet;
+NS_ASSUME_NONNULL_BEGIN
+
+@interface Tweet : NSManagedObject
+
+// Insert code here to declare functionality of your managed object subclass
 @property (nonatomic, strong) TWTRAPIClient *client;
 
-- (id) initWithDictionary:(NSDictionary *)dictionary;
 - (BOOL) retweet;
 - (BOOL) favorite;
 
-+ (NSArray *)tweetsWithArray:(NSArray *)array;
++ (Tweet *)tweetWithTwitterInfo:(NSDictionary *)tweetDictionary
+         inManagedObjectContext:(NSManagedObjectContext *)context;
+
++ (NSArray *)loadTweetsFromArray:(NSArray *)tweets
+   intoManagedObjectContext:(NSManagedObjectContext *)context;
 
 @end
+
+NS_ASSUME_NONNULL_END
+
+#import "Tweet+CoreDataProperties.h"
