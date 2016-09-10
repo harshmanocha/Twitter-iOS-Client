@@ -58,6 +58,12 @@
     // Fetch the devices from persistent data store
     NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Tweet"];
+    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"generatedByApiEndPoint = %@", self.twitterRequestApiEndPoint]];
+    NSSortDescriptor * createdAtSortDescriptor;
+    createdAtSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt"
+                                                      ascending:NO];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:createdAtSortDescriptor, nil]];
+    
     self.tweets = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
     
     [self.tableView reloadData];
@@ -79,6 +85,7 @@
                 NSArray *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
                 
                 self.tweets = [Tweet loadTweetsFromArray:json
+                               generatedByApiEndPoint:self.twitterRequestApiEndPoint
                                 intoManagedObjectContext:[self managedObjectContext]];
                 [self.tweetTableView reloadData];
             }
@@ -134,6 +141,7 @@
                 NSArray *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
                 
                 NSArray *moreTweets = [Tweet loadTweetsFromArray:json
+                                          generatedByApiEndPoint:self.twitterRequestApiEndPoint
                                         intoManagedObjectContext:[self managedObjectContext]];
                 if (moreTweets.count > 0) {
                     NSLog(@"Got %lu more tweets", moreTweets.count);

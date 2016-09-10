@@ -21,6 +21,7 @@
 @dynamic retweetCount;
 @dynamic retweeted;
 @dynamic text;
+@dynamic generatedByApiEndPoint;
 @dynamic retweetedTweet;
 @dynamic user;
 

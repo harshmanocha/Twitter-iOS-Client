@@ -19,7 +19,9 @@ NSString * const unretweetApiSkeleton = @"https://api.twitter.com/1.1/statuses/u
 @synthesize client;
 
 // Insert code here to add functionality to your managed object subclass
-+ (Tweet *)tweetWithTwitterInfo:(NSDictionary *)tweetDictionary inManagedObjectContext:(NSManagedObjectContext *)context {
++ (Tweet *)tweetWithTwitterInfo:(NSDictionary *)tweetDictionary
+         generatedByApiEndPoint:(NSString *)apiEndPoint
+         inManagedObjectContext:(NSManagedObjectContext *)context {
     Tweet *tweet = nil;
     
     NSString *tweetId = tweetDictionary[@"id_str"];
@@ -30,7 +32,7 @@ NSString * const unretweetApiSkeleton = @"https://api.twitter.com/1.1/statuses/u
     NSArray *matches = [context executeFetchRequest:request error:&error];
     
     if (!matches || error || ([matches count] > 1)) {
-        // handle error
+        NSLog(@"Error in retrieving tweet from Core Data with tweetID: %@", tweetId);
     }
     else if ([matches count]) {
         tweet = [matches firstObject];
@@ -56,14 +58,18 @@ NSString * const unretweetApiSkeleton = @"https://api.twitter.com/1.1/statuses/u
         tweet.favoriteCount = [[NSNumber alloc] initWithLong:[tweetDictionary[@"favorite_count"] integerValue]];
         
         tweet.retweeted = [[NSNumber alloc] initWithBool:[tweetDictionary[@"retweeted"] boolValue]];
-        tweet.favorited = [[NSNumber alloc] initWithBool:[tweetDictionary[@"favorited"] boolValue]];
+        tweet.favorited = [NSNumber numberWithBool:[tweetDictionary[@"favorited"] boolValue]];
         
         tweet.idStr = tweetDictionary[@"id_str"];
         
         if (tweetDictionary[@"retweeted_status"]) {
-            tweet.retweetedTweet = [Tweet tweetWithTwitterInfo:tweetDictionary[@"retweeted_status"] inManagedObjectContext:context];
+            tweet.retweetedTweet = [Tweet tweetWithTwitterInfo:tweetDictionary[@"retweeted_status"]
+                                        generatedByApiEndPoint:apiEndPoint
+                                        inManagedObjectContext:context];
             
         }
+        
+        tweet.generatedByApiEndPoint = apiEndPoint;
         
         NSString *userID = [Twitter sharedInstance].sessionStore.session.userID;
         tweet.client = [[TWTRAPIClient alloc] initWithUserID:userID];
@@ -78,11 +84,14 @@ NSString * const unretweetApiSkeleton = @"https://api.twitter.com/1.1/statuses/u
     return tweet;
 }
 
-+ (NSArray *)loadTweetsFromArray:(NSArray *)tweetsDictArray intoManagedObjectContext:(NSManagedObjectContext *)context {
++ (NSArray *)loadTweetsFromArray:(NSArray *)tweetsDictArray
+          generatedByApiEndPoint:(NSString *)apiEndPoint
+        intoManagedObjectContext:(NSManagedObjectContext *)context {
     
     NSMutableArray *tweets = [NSMutableArray array];
     for (NSDictionary *tweetDictonary in tweetsDictArray) {
         Tweet *tweet = [Tweet tweetWithTwitterInfo:tweetDictonary
+                        generatedByApiEndPoint:apiEndPoint
                                 inManagedObjectContext:context];
         [tweets addObject:tweet];
     }
@@ -93,7 +102,7 @@ NSString * const unretweetApiSkeleton = @"https://api.twitter.com/1.1/statuses/u
 - (BOOL)retweet {
     self.retweeted = [[NSNumber alloc] initWithBool:![self.retweeted boolValue]];
 
-    if (self.retweeted) {
+    if ([self.retweeted boolValue]) {
         self.retweetCount = [[NSNumber alloc] initWithLong:([self.retweetCount longValue] + 1)];
 //        self.retweetCount++;
         
@@ -142,7 +151,7 @@ NSString * const unretweetApiSkeleton = @"https://api.twitter.com/1.1/statuses/u
         }
     }
     
-    return self.retweeted;
+    return [self.retweeted boolValue];
 }
 
 - (BOOL)favorite {
@@ -150,7 +159,7 @@ NSString * const unretweetApiSkeleton = @"https://api.twitter.com/1.1/statuses/u
     
     NSDictionary *requestParams = @{@"id":self.idStr};
     
-    if (self.favorited) {
+    if ([self.favorited boolValue]) {
         self.favoriteCount = [[NSNumber alloc] initWithLong:([self.favoriteCount longValue] + 1)];
         
         NSError *clientError;
@@ -187,16 +196,16 @@ NSString * const unretweetApiSkeleton = @"https://api.twitter.com/1.1/statuses/u
                     NSLog(@"Unfavorite successful");
                 }
                 else {
-                    NSLog(@"Error: %@", connectionError);
+                    NSLog(@"Connection Error: %@", connectionError);
                 }
             }];
         }
         else {
-            NSLog(@"Error: %@", clientError);
+            NSLog(@"Request Error: %@", clientError);
         }
     }
     
-    return self.favorited;
+    return [self.favorited boolValue];
 }
 
 @end

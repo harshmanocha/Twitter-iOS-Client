@@ -109,7 +109,6 @@
         self.timestampLabel.text = [NSString stringWithFormat:@"%.0fs", secondsSinceTweet];
     }
     
-    // disable if no id
     if (!tweet.idStr) {
         self.replyButton.enabled = self.retweetButton.enabled = self.favoriteButton.enabled = NO;
     }
@@ -130,7 +129,9 @@
     else {
         self.favoriteCountLabel.text = @"";
     }
-        
+    
+//    NSLog(@"Favorited bool value: %d", [tweet.favorited boolValue]);
+    
     if ([tweet.retweeted boolValue]) {
         self.retweetCountLabel.textColor = [UIColor greenColor];
     }
@@ -138,15 +139,15 @@
         self.retweetCountLabel.textColor = [UIColor grayColor];
     }
         
-    if ([tweet.favorited boolValue]) {
+    if ([tweet.favorited boolValue] > 0) {
         self.favoriteCountLabel.textColor = [UIColor orangeColor];
     }
     else {
         self.favoriteCountLabel.textColor = [UIColor grayColor];
     }
     
-    [self.retweetButton setSelected:tweet.retweeted];
-    [self.favoriteButton setSelected:tweet.favorited];
+    [self.retweetButton setSelected:[tweet.retweeted boolValue]];
+    [self.favoriteButton setSelected:[tweet.favorited boolValue]];
 }
 
 - (void)highlightButton:(UIButton *)button highlight:(BOOL)highlight {

@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSNumber *retweetCount;
 @property (nullable, nonatomic, retain) NSNumber *retweeted;
 @property (nullable, nonatomic, retain) NSString *text;
+@property (nullable, nonatomic, retain) NSString *generatedByApiEndPoint;
 @property (nullable, nonatomic, retain) Tweet *retweetedTweet;
 @property (nullable, nonatomic, retain) User *user;
 

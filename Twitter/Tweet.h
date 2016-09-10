@@ -24,10 +24,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL) favorite;
 
 + (Tweet *)tweetWithTwitterInfo:(NSDictionary *)tweetDictionary
+         generatedByApiEndPoint:(NSString *)apiEndPoint
          inManagedObjectContext:(NSManagedObjectContext *)context;
 
 + (NSArray *)loadTweetsFromArray:(NSArray *)tweets
-   intoManagedObjectContext:(NSManagedObjectContext *)context;
+          generatedByApiEndPoint:(NSString *)apiEndPoint
+        intoManagedObjectContext:(NSManagedObjectContext *)context;
 
 @end
 
