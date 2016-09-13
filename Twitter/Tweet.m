@@ -33,7 +33,7 @@ NSString * const unretweetApiSkeleton = @"https://api.twitter.com/1.1/statuses/u
     
     NSString *tweetId = tweetDictionary[@"id_str"];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Tweet"];
-    request.predicate = [NSPredicate predicateWithFormat:@"idStr = %@", tweetId];
+    request.predicate = [NSPredicate predicateWithFormat:@"(idStr = %@) AND (generatedByApiEndPoint = %@)", tweetId, apiEndPoint];
     
     NSError *error;
     NSArray *matches = [context executeFetchRequest:request error:&error];
