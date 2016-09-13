@@ -1,9 +1,9 @@
 //
 //  User+CoreDataProperties.m
-//  Twitter
+//  
 //
-//  Created by harsh.man on 09/09/16.
-//  Copyright © 2016 Directi. All rights reserved.
+//  Created by harsh.man on 13/09/16.
+//
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
 //  to delete and recreate this implementation file for your updated model.
@@ -17,6 +17,7 @@
 @dynamic screenname;
 @dynamic profileImageUrl;
 @dynamic tagline;
+@dynamic profileImage;
 @dynamic tweets;
 
 @end
