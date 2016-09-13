@@ -43,6 +43,11 @@ NSString * const unretweetApiSkeleton = @"https://api.twitter.com/1.1/statuses/u
     }
     else if ([matches count]) {
         tweet = [matches firstObject];
+        tweet.retweetCount = [[NSNumber alloc] initWithLong:[tweetDictionary[@"retweet_count"] integerValue]];
+        tweet.favoriteCount = [[NSNumber alloc] initWithLong:[tweetDictionary[@"favorite_count"] integerValue]];
+        
+        tweet.retweeted = [[NSNumber alloc] initWithBool:[tweetDictionary[@"retweeted"] boolValue]];
+        tweet.favorited = [NSNumber numberWithBool:[tweetDictionary[@"favorited"] boolValue]];
     }
     else {
         tweet = [NSEntityDescription insertNewObjectForEntityForName:@"Tweet"
@@ -66,8 +71,6 @@ NSString * const unretweetApiSkeleton = @"https://api.twitter.com/1.1/statuses/u
         
         tweet.retweeted = [[NSNumber alloc] initWithBool:[tweetDictionary[@"retweeted"] boolValue]];
         tweet.favorited = [NSNumber numberWithBool:[tweetDictionary[@"favorited"] boolValue]];
-        
-        tweet.idStr = tweetDictionary[@"id_str"];
         
         if (tweetDictionary[@"retweeted_status"]) {
             tweet.retweetedTweet = [Tweet tweetWithTwitterInfo:tweetDictionary[@"retweeted_status"]
