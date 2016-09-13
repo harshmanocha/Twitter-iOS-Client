@@ -16,7 +16,7 @@
 
 @implementation TimelineViewController
 
-- (NSManagedObjectContext *)managedObjectContext {
++ (NSManagedObjectContext *)managedObjectContext {
     NSManagedObjectContext *context = nil;
     id delegate = [[UIApplication sharedApplication] delegate];
     if ([delegate performSelector:@selector(managedObjectContext)]) {
@@ -56,7 +56,7 @@
     [super viewDidAppear:animated];
     
     // Fetch the devices from persistent data store
-    NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
+    NSManagedObjectContext *managedObjectContext = [TimelineViewController managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Tweet"];
     [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"generatedByApiEndPoint = %@", self.twitterRequestApiEndPoint]];
     NSSortDescriptor * createdAtSortDescriptor;
@@ -70,6 +70,10 @@
 }
 
 - (void)refreshTweets {
+    
+    NSLog(@"Fetching/refreshing tweets");
+    
+    [self.requestParams removeObjectForKey:@"max_id"];
     
     NSError *clientError;
     NSURLRequest *request = [self.client URLRequestWithMethod:@"GET"
@@ -86,7 +90,7 @@
                 
                 self.tweets = [Tweet loadTweetsFromArray:json
                                generatedByApiEndPoint:self.twitterRequestApiEndPoint
-                                intoManagedObjectContext:[self managedObjectContext]];
+                                intoManagedObjectContext:[TimelineViewController managedObjectContext]];
                 [self.tweetTableView reloadData];
             }
             else {
@@ -142,8 +146,8 @@
                 
                 NSArray *moreTweets = [Tweet loadTweetsFromArray:json
                                           generatedByApiEndPoint:self.twitterRequestApiEndPoint
-                                        intoManagedObjectContext:[self managedObjectContext]];
-                if (moreTweets.count > 0) {
+                                        intoManagedObjectContext:[TimelineViewController managedObjectContext]];
+                if (moreTweets.count > 1) {
                     NSLog(@"Got %lu more tweets", moreTweets.count);
                     NSMutableArray *temp = [NSMutableArray arrayWithArray:self.tweets];
                     [temp addObjectsFromArray:moreTweets];

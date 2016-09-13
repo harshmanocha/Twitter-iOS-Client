@@ -20,13 +20,17 @@
     [self setRequestParams:paramsForUserTimeline];
     
     [super viewDidLoad];
-    
-    [self.tabBarController setTitle:@"User Timeline"];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self.tabBarController setTitle:@"User Timeline"];
 }
 
 /*

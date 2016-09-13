@@ -16,7 +16,14 @@ NSString * const unretweetApiSkeleton = @"https://api.twitter.com/1.1/statuses/u
 
 @implementation Tweet
 
-@synthesize client;
++ (TWTRAPIClient *)apiClient {
+    static TWTRAPIClient *client = nil;
+    if (client == nil) {
+        NSString *userID = [Twitter sharedInstance].sessionStore.session.userID;
+        client = [[TWTRAPIClient alloc] initWithUserID:userID];
+    }
+    return client;
+}
 
 // Insert code here to add functionality to your managed object subclass
 + (Tweet *)tweetWithTwitterInfo:(NSDictionary *)tweetDictionary
@@ -71,9 +78,6 @@ NSString * const unretweetApiSkeleton = @"https://api.twitter.com/1.1/statuses/u
         
         tweet.generatedByApiEndPoint = apiEndPoint;
         
-        NSString *userID = [Twitter sharedInstance].sessionStore.session.userID;
-        tweet.client = [[TWTRAPIClient alloc] initWithUserID:userID];
-        
         NSError *error = nil;
         // Save the object to persistent store
         if (![context save:&error]) {
@@ -109,12 +113,12 @@ NSString * const unretweetApiSkeleton = @"https://api.twitter.com/1.1/statuses/u
         // retweet
         NSString *retweetApiEndPoint = [NSString stringWithFormat:retweetApiSkeleton, self.idStr];
         NSError *clientError;
-        NSURLRequest *request = [self.client URLRequestWithMethod:@"POST"
+        NSURLRequest *request = [Tweet.apiClient URLRequestWithMethod:@"POST"
                                                               URL:retweetApiEndPoint
                                                        parameters:@{@"id":self.idStr}
                                                             error:&clientError];
         if (request) {
-            [self.client sendTwitterRequest:request completion:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+            [Tweet.apiClient sendTwitterRequest:request completion:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                 if (data) {
                     NSLog(@"Retweet successful, retweet_id_str: ");
                 }
@@ -132,12 +136,12 @@ NSString * const unretweetApiSkeleton = @"https://api.twitter.com/1.1/statuses/u
         // unretweet
         NSString *unretweetApiEndPoint = [NSString stringWithFormat:unretweetApiSkeleton, self.idStr];
         NSError *clientError;
-        NSURLRequest *request = [self.client URLRequestWithMethod:@"POST"
+        NSURLRequest *request = [Tweet.apiClient URLRequestWithMethod:@"POST"
                                                               URL:unretweetApiEndPoint
                                                        parameters:@{@"id":self.idStr}
                                                             error:&clientError];
         if (request) {
-            [self.client sendTwitterRequest:request completion:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+            [Tweet.apiClient sendTwitterRequest:request completion:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                 if (data) {
                     NSLog(@"Unretweet successful");
                 }
@@ -163,22 +167,22 @@ NSString * const unretweetApiSkeleton = @"https://api.twitter.com/1.1/statuses/u
         self.favoriteCount = [[NSNumber alloc] initWithLong:([self.favoriteCount longValue] + 1)];
         
         NSError *clientError;
-        NSURLRequest *request = [self.client URLRequestWithMethod:@"POST"
+        NSURLRequest *request = [Tweet.apiClient URLRequestWithMethod:@"POST"
                                                               URL:tweetFavoriteApiEndPoint
                                                        parameters:requestParams
                                                             error:&clientError];
         if (request) {
-            [self.client sendTwitterRequest:request completion:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+            [Tweet.apiClient sendTwitterRequest:request completion:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                 if (data) {
                     NSLog(@"Favorite successful");
                 }
                 else {
-                    NSLog(@"Error: %@", connectionError);
+                    NSLog(@"Twitter Error: %@", connectionError);
                 }
             }];
         }
         else {
-            NSLog(@"Error: %@", clientError);
+            NSLog(@"Request Error: %@", clientError);
         }
         
     } else {
@@ -186,12 +190,12 @@ NSString * const unretweetApiSkeleton = @"https://api.twitter.com/1.1/statuses/u
 
         // unfavorite
         NSError *clientError;
-        NSURLRequest *request = [self.client URLRequestWithMethod:@"POST"
+        NSURLRequest *request = [Tweet.apiClient URLRequestWithMethod:@"POST"
                                                               URL:tweetUnfavoriteApiEndPoint
                                                        parameters:requestParams
                                                             error:&clientError];
         if (request) {
-            [self.client sendTwitterRequest:request completion:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+            [Tweet.apiClient sendTwitterRequest:request completion:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                 if (data) {
                     NSLog(@"Unfavorite successful");
                 }

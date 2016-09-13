@@ -18,10 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface Tweet : NSManagedObject
 
 // Insert code here to declare functionality of your managed object subclass
-@property (nonatomic, strong) TWTRAPIClient *client;
 
 - (BOOL) retweet;
 - (BOOL) favorite;
+
++ (TWTRAPIClient *)apiClient;
 
 + (Tweet *)tweetWithTwitterInfo:(NSDictionary *)tweetDictionary
          generatedByApiEndPoint:(NSString *)apiEndPoint

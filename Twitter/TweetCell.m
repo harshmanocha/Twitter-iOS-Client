@@ -7,6 +7,7 @@
 //
 
 #import "TweetCell.h"
+#import "TimelineViewController.h"
 
 @interface TweetCell()
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
@@ -175,6 +176,13 @@
         self.retweetCountLabel.text = @"";
     }
     [self highlightButton:self.retweetButton highlight:retweeted];
+    
+    NSError *error = nil;
+    // Save the object to persistent store
+    NSManagedObjectContext *context = [TimelineViewController managedObjectContext];
+    if (![context save:&error]) {
+        NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
+    }
 }
 
 - (IBAction)onFavorite:(id)sender {
@@ -197,6 +205,13 @@
         self.favoriteCountLabel.text = @"";
     }
     [self highlightButton:self.favoriteButton highlight:favorited];
+    
+    NSError *error = nil;
+    // Save the object to persistent store
+    NSManagedObjectContext *context = [TimelineViewController managedObjectContext];
+    if (![context save:&error]) {
+        NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
+    }
 }
 
 @end

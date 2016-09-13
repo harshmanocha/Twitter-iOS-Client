@@ -33,5 +33,8 @@
 @property (nonatomic, weak) id <TimelineDelegate> delegate;
 
 - (void)refreshTweets;
+- (void)getMoreTweets;
+
++ (NSManagedObjectContext *)managedObjectContext;
 
 @end
