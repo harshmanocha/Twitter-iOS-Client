@@ -53,7 +53,7 @@
             [self performSegueWithIdentifier:@"loginSeque" sender:NULL];
             
         } else {
-            NSLog(@"error: %@", [error localizedDescription]);
+            NSLog(@"Session error: %@", [error localizedDescription]);
             self.wasLoginSuccessful = NO;
         }
     }];

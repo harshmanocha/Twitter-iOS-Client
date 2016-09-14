@@ -1,0 +1,19 @@
+/* 
+  Localizable.strings
+  Twitter
+
+  Created by harsh.man on 14/09/16.
+  Copyright © 2016 Directi. All rights reserved.
+*/
+
+"%@ retweeted" = "%@ ने रीट्वीट किया";
+
+"User Timeline" = "उपयोगकर्ता टाइमलाइन";
+
+"Home Feed" = "होम टाइमलाइन";
+
+"%@h" = "%@ घं.";
+
+"%@m" = "%@ मिन.";
+
+"%@s" = "%@ सेकं.";

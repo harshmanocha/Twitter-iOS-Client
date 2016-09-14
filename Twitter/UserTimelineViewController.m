@@ -30,7 +30,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self.tabBarController setTitle:@"User Timeline"];
+    [self.tabBarController setTitle:NSLocalizedString(@"User Timeline", nil)];
 }
 
 /*

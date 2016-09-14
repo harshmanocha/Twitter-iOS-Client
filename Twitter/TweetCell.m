@@ -69,7 +69,7 @@
     
     if (tweet.retweetedTweet) {
         tweetToDisplay = tweet.retweetedTweet;
-        self.retweetedByLabel.text = [NSString stringWithFormat:@"%@ retweeted", user.name];
+        self.retweetedByLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%@ retweeted", nil), user.name];
         [self.retweetView setHidden:NO];
         [self.retweetedByLabel setHidden:NO];
         // update constraints dynamically
@@ -107,23 +107,24 @@
     self.screenNameLabel.text = [NSString stringWithFormat:@"@%@", tweetToDisplay.user.screenname];
     self.tweetLabel.text = tweetToDisplay.text;
     
-    // show relative time since now if 24 hours or more has elapsed
-    NSTimeInterval secondsSinceTweet = -[tweetToDisplay.createdAt timeIntervalSinceNow];
+    // show relative time since now if 24 hours or less has elapsed
+    NSTimeInterval secondsSinceTweet = -[self.tweet.createdAt timeIntervalSinceNow];
     
+    NSLog(@"Seconds since tweet: %f and created at: %@", secondsSinceTweet, _tweet.createdAt);
     if (secondsSinceTweet >= 86400) {
         // show month, day, and year
-        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-        [dateFormat setDateFormat:@"M/d/yy"];
-        self.timestampLabel.text = [dateFormat stringFromDate:_tweet.createdAt];
+        self.timestampLabel.text = [NSDateFormatter localizedStringFromDate:tweetToDisplay.createdAt
+                                                                  dateStyle:NSDateFormatterShortStyle
+                                                                  timeStyle:NSDateFormatterNoStyle];
     } else if (secondsSinceTweet >= 3600) {
         // show hours
-        self.timestampLabel.text = [NSString stringWithFormat:@"%.0fh", secondsSinceTweet/3600];
+        self.timestampLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%@h", nil), [TweetCell localizedNumberString:@(secondsSinceTweet/3600)]];
     } else if (secondsSinceTweet >= 60){
         // show minutes
-        self.timestampLabel.text = [NSString stringWithFormat:@"%.0fm", secondsSinceTweet/60];
+        self.timestampLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%@m", nil), [TweetCell localizedNumberString:@(secondsSinceTweet/60)]];
     } else {
         // show seconds
-        self.timestampLabel.text = [NSString stringWithFormat:@"%.0fs", secondsSinceTweet];
+        self.timestampLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%@s", nil), [TweetCell localizedNumberString:@(secondsSinceTweet)]];
     }
     
     if (!tweet.idStr) {
@@ -134,14 +135,14 @@
     }
 
     if ([tweet.retweetCount longValue] > 0) {
-        self.retweetCountLabel.text = [NSString stringWithFormat:@"%ld", [tweet.retweetCount longValue]];
+        self.retweetCountLabel.text = [TweetCell localizedNumberString:tweetToDisplay.retweetCount];
     }
     else {
         self.retweetCountLabel.text = @"";
     }
 
     if ([tweetToDisplay.favoriteCount longValue] > 0) {
-        self.favoriteCountLabel.text = [NSString stringWithFormat:@"%ld", [tweetToDisplay.favoriteCount longValue]];
+        self.favoriteCountLabel.text = [TweetCell localizedNumberString:tweetToDisplay.favoriteCount];
     }
     else {
         self.favoriteCountLabel.text = @"";
@@ -163,6 +164,13 @@
     
     [self.retweetButton setSelected:[tweet.retweeted boolValue]];
     [self.favoriteButton setSelected:[tweet.favorited boolValue]];
+}
+
++ (NSString *)localizedNumberString:(NSNumber *)number {
+    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+    [numberFormatter setNumberStyle:NSNumberFormatterNoStyle];
+    NSString *numberString = [numberFormatter stringFromNumber:number];
+    return numberString;
 }
 
 - (void)highlightButton:(UIButton *)button highlight:(BOOL)highlight {

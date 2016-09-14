@@ -95,7 +95,7 @@
         <!--Home Feed-->
         <scene sceneID="itQ-gP-osD">
             <objects>
-                <tableViewController title="Home Feed" id="CCZ-zI-56f" customClass="HomeTimelineViewController" sceneMemberID="viewController">
+                <tableViewController id="CCZ-zI-56f" customClass="HomeTimelineViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="115" sectionHeaderHeight="28" sectionFooterHeight="28" id="ace-21-9sC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -222,7 +222,7 @@
             <objects>
                 <tabBarController id="xBC-ti-CrE" customClass="TabBarController" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="or4-Gj-mU8">
-                        <barButtonItem key="leftBarButtonItem" title="Sign out" id="1uA-Wp-Rri">
+                        <barButtonItem key="leftBarButtonItem" title="Log out" id="1uA-Wp-Rri">
                             <connections>
                                 <action selector="signOutFromTwitter:" destination="xBC-ti-CrE" id="Ysg-eu-7F0"/>
                             </connections>

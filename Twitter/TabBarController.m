@@ -33,7 +33,7 @@
         NSLog(@"Initial text: %@", withText);
         [composer setText:withText];
     }
-    
+        
     [composer showFromViewController:self completion:^(TWTRComposerResult result) {
         if (result == TWTRComposerResultCancelled) {
             NSLog(@"Tweet composition cancelled");

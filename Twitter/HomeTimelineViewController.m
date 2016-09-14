@@ -33,7 +33,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self.tabBarController setTitle:@"Home Feed"];
+    [self.tabBarController setTitle:NSLocalizedString(@"Home Feed", nil)];
 }
 
 /*

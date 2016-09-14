@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A1E45501D898C6B00490698 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A1E454F1D898C6B00490698 /* Info.plist */; };
+		0A5F14FA1D896E1900B7E8A8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0A5F14FC1D896E1900B7E8A8 /* Localizable.strings */; };
+		0A5F15031D89721C00B7E8A8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A5F15021D89721C00B7E8A8 /* Default-568h@2x.png */; };
+		0A5F15061D89739D00B7E8A8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0A5F15081D89739D00B7E8A8 /* InfoPlist.strings */; };
 		0A6758E21D7F1A5B009097F9 /* TweetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6758E11D7F1A5A009097F9 /* TweetCell.m */; };
 		0A6758E51D803CA0009097F9 /* UsersTableTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6758E41D803CA0009097F9 /* UsersTableTableViewController.m */; };
 		0A6758E81D803E21009097F9 /* FollowersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6758E71D803E21009097F9 /* FollowersViewController.m */; };
@@ -29,11 +33,17 @@
 		0ACA51101D7EB091007ABBE4 /* TweetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0ACA510F1D7EB091007ABBE4 /* TweetCell.xib */; };
 		0ACA51131D7EB89C007ABBE4 /* TimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA51121D7EB89C007ABBE4 /* TimelineViewController.m */; };
 		0ACA51161D7ED1F4007ABBE4 /* HomeTimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA51151D7ED1F4007ABBE4 /* HomeTimelineViewController.m */; };
-		0ACA51181D7ED314007ABBE4 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0ACA51171D7ED314007ABBE4 /* Default-568h@2x.png */; };
 		AD67D769A265425289B6EE55 /* libPods-Twitter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7581AA54517EE2CFA3C3278F /* libPods-Twitter.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A1E454E1D89783800490698 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		0A1E454F1D898C6B00490698 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0A5F14FD1D896E1C00B7E8A8 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0A5F14FE1D896E2B00B7E8A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0A5F15021D89721C00B7E8A8 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		0A5F15071D89739D00B7E8A8 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0A5F15091D8973A400B7E8A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0A6758E01D7F1A5A009097F9 /* TweetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetCell.h; sourceTree = "<group>"; };
 		0A6758E11D7F1A5A009097F9 /* TweetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetCell.m; sourceTree = "<group>"; };
 		0A6758E31D803CA0009097F9 /* UsersTableTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsersTableTableViewController.h; sourceTree = "<group>"; };
@@ -53,6 +63,7 @@
 		0A6759031D82AA0B009097F9 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		0A6759061D8819F5009097F9 /* User+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "User+CoreDataProperties.h"; sourceTree = "<group>"; };
 		0A6759071D8819F5009097F9 /* User+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "User+CoreDataProperties.m"; sourceTree = "<group>"; };
+		0A678E3C1D8963350049077C /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/Main.strings; sourceTree = "<group>"; };
 		0A860F6F1D75A63900454602 /* Twitter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Twitter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A860F731D75A63900454602 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0A860F751D75A63900454602 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -61,7 +72,6 @@
 		0A860F7F1D75A63900454602 /* Twitter.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Twitter.xcdatamodel; sourceTree = "<group>"; };
 		0A860F811D75A63900454602 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A860F841D75A63900454602 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		0A860F861D75A63900454602 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A860F8E1D75ACED00454602 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		0A860F8F1D75ACED00454602 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		0A860F971D77057200454602 /* UserTimelineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserTimelineViewController.h; sourceTree = "<group>"; };
@@ -73,7 +83,6 @@
 		0ACA51121D7EB89C007ABBE4 /* TimelineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimelineViewController.m; sourceTree = "<group>"; };
 		0ACA51141D7ED1F4007ABBE4 /* HomeTimelineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeTimelineViewController.h; sourceTree = "<group>"; };
 		0ACA51151D7ED1F4007ABBE4 /* HomeTimelineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeTimelineViewController.m; sourceTree = "<group>"; };
-		0ACA51171D7ED314007ABBE4 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		7581AA54517EE2CFA3C3278F /* libPods-Twitter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Twitter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		795E5A6A545EF00392E00270 /* Pods-Twitter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Twitter.release.xcconfig"; path = "Pods/Target Support Files/Pods-Twitter/Pods-Twitter.release.xcconfig"; sourceTree = "<group>"; };
 		F2167AF9A6A07601F26C34F0 /* Pods-Twitter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Twitter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Twitter/Pods-Twitter.debug.xcconfig"; sourceTree = "<group>"; };
@@ -110,7 +119,7 @@
 		0A860F661D75A63900454602 = {
 			isa = PBXGroup;
 			children = (
-				0ACA51171D7ED314007ABBE4 /* Default-568h@2x.png */,
+				0A5F15021D89721C00B7E8A8 /* Default-568h@2x.png */,
 				0A860F711D75A63900454602 /* Twitter */,
 				0A860F701D75A63900454602 /* Products */,
 				FBA2444476D43F6F7CA41BFE /* Pods */,
@@ -130,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				0A860F811D75A63900454602 /* Assets.xcassets */,
+				0A5F14FC1D896E1900B7E8A8 /* Localizable.strings */,
 				0A6758D91D7EDFCE009097F9 /* Models */,
 				0ACA510C1D7EAFDB007ABBE4 /* Views */,
 				0A860F961D76EE9900454602 /* Controllers */,
@@ -141,7 +151,8 @@
 		0A860F721D75A63900454602 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				0A860F861D75A63900454602 /* Info.plist */,
+				0A1E454F1D898C6B00490698 /* Info.plist */,
+				0A5F15081D89739D00B7E8A8 /* InfoPlist.strings */,
 				0A860F751D75A63900454602 /* AppDelegate.h */,
 				0A860F761D75A63900454602 /* AppDelegate.m */,
 				0A860F731D75A63900454602 /* main.m */,
@@ -250,6 +261,7 @@
 			knownRegions = (
 				en,
 				Base,
+				hi,
 			);
 			mainGroup = 0A860F661D75A63900454602;
 			productRefGroup = 0A860F701D75A63900454602 /* Products */;
@@ -267,10 +279,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A860F851D75A63900454602 /* LaunchScreen.storyboard in Resources */,
+				0A5F15061D89739D00B7E8A8 /* InfoPlist.strings in Resources */,
+				0A1E45501D898C6B00490698 /* Info.plist in Resources */,
+				0A5F14FA1D896E1900B7E8A8 /* Localizable.strings in Resources */,
 				0A860F821D75A63900454602 /* Assets.xcassets in Resources */,
 				0A6758F01D8041E4009097F9 /* UserCell.xib in Resources */,
 				0A860F7D1D75A63900454602 /* Main.storyboard in Resources */,
-				0ACA51181D7ED314007ABBE4 /* Default-568h@2x.png in Resources */,
+				0A5F15031D89721C00B7E8A8 /* Default-568h@2x.png in Resources */,
 				0ACA51101D7EB091007ABBE4 /* TweetCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -366,10 +381,30 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		0A5F14FC1D896E1900B7E8A8 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0A5F14FD1D896E1C00B7E8A8 /* hi */,
+				0A5F14FE1D896E2B00B7E8A8 /* Base */,
+			);
+			name = Localizable.strings;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		0A5F15081D89739D00B7E8A8 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0A5F15071D89739D00B7E8A8 /* hi */,
+				0A5F15091D8973A400B7E8A8 /* Base */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		0A860F7B1D75A63900454602 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				0A860F7C1D75A63900454602 /* Base */,
+				0A678E3C1D8963350049077C /* hi */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -378,6 +413,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				0A860F841D75A63900454602 /* Base */,
+				0A1E454E1D89783800490698 /* hi */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";

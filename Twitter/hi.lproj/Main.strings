@@ -1,0 +1,21 @@
+
+/* Class = "UITabBarItem"; title = "Home Feed"; ObjectID = "0sq-6q-6PC"; */
+"0sq-6q-6PC.title" = "होम टाइमलाइन";
+
+/* Class = "UIBarButtonItem"; title = "Log out"; ObjectID = "1uA-Wp-Rri"; */
+"1uA-Wp-Rri.title" = "लॉग आउट";
+
+/* Class = "UIButton"; normalTitle = "Login with Twitter"; ObjectID = "76i-Xu-LmL"; */
+"76i-Xu-LmL.normalTitle" = "लॉगिन ट्विटर";
+
+/* Class = "UITabBarItem"; title = "Followers"; ObjectID = "Fom-HF-022"; */
+"Fom-HF-022.title" = "फ़ॉलोअर";
+
+/* Class = "UITabBarItem"; title = "User Timeline"; ObjectID = "P8o-X1-DcN"; */
+"P8o-X1-DcN.title" = "उपयोगकर्ता टाइमलाइन";
+
+/* Class = "UIBarButtonItem"; title = "Tweet"; ObjectID = "pbd-Di-QBJ"; */
+"pbd-Di-QBJ.title" = "ट्वीट";
+
+/* Class = "UITabBarItem"; title = "Following"; ObjectID = "xee-DU-cxt"; */
+"xee-DU-cxt.title" = "फ़ॉलो कर रहे हें";
