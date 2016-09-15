@@ -10,7 +10,11 @@
 
 "User Timeline" = "User Timeline";
 
-"Home Feed" = "User Timeline";
+"Home Feed" = "Home Feed";
+
+"Followers" = "Followers";
+
+"Following" = "Following";
 
 "%@h" = "%@h";
 

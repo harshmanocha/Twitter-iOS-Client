@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "TwitterKit/TwitterKit.h"
 #import "MBProgressHUD.h"
+#import "User.h"
 
-@interface UsersTableTableViewController : UITableViewController
+@interface UsersTableViewController : UITableViewController
 
 @property (nonatomic, strong) TWTRAPIClient *client;
 
@@ -19,8 +20,15 @@
 
 @property (weak, nonatomic) UITableView *usersTableView;
 
-@property (strong, nonatomic) NSArray *tweets;
+@property (strong, nonatomic) NSArray *users;
+@property (strong, nonatomic) NSString *nextCursor;
 @property (strong, nonatomic) UIRefreshControl *refreshUsersControl;
 @property (strong, nonatomic) MBProgressHUD *loadingIndicator;
+
+- (void)refreshUsers;
+- (void)getMoreUsers;
+- (void)loadDataFromPersistentStorage;
+
++ (NSManagedObjectContext *)managedObjectContext;
 
 @end

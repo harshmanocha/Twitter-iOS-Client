@@ -2,24 +2,25 @@
 //  User+CoreDataProperties.h
 //  
 //
-//  Created by harsh.man on 13/09/16.
+//  Created by harsh.man on 15/09/16.
 //
-//
-//  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
-//  to delete and recreate this implementation file for your updated model.
 //
 
 #import "User.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface User (CoreDataProperties)
 
-@property (nullable, nonatomic, retain) NSString *name;
-@property (nullable, nonatomic, retain) NSString *screenname;
-@property (nullable, nonatomic, retain) NSString *profileImageUrl;
-@property (nullable, nonatomic, retain) NSString *tagline;
++ (NSFetchRequest<User *> *)fetchRequest;
+
+@property (nullable, nonatomic, copy) NSString *name;
 @property (nullable, nonatomic, retain) NSData *profileImage;
+@property (nullable, nonatomic, copy) NSString *profileImageUrl;
+@property (nullable, nonatomic, copy) NSString *screenname;
+@property (nullable, nonatomic, copy) NSString *tagline;
+@property (nullable, nonatomic, copy) NSString *generatedByApiEndPoint;
 @property (nullable, nonatomic, retain) NSSet<Tweet *> *tweets;
 
 @end

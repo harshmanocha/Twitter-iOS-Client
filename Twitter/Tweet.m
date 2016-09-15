@@ -55,10 +55,11 @@ NSString * const unretweetApiSkeleton = @"https://api.twitter.com/1.1/statuses/u
         tweet.idStr = tweetId;
         
         tweet.user = [User userWithDictionary:tweetDictionary[@"user"]
+                       generatedByApiEndPoint:apiEndPoint
                        inManagedObjectContext:context];
         
         tweet.text = [tweetDictionary[@"text"] stringByReplacingOccurrencesOfString:@"&amp;"
-                                                                    withString:@"&"];
+                                                                         withString:@"&"];
         
         NSString *createdAtString = tweetDictionary[@"created_at"];
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -98,8 +99,8 @@ NSString * const unretweetApiSkeleton = @"https://api.twitter.com/1.1/statuses/u
         intoManagedObjectContext:(NSManagedObjectContext *)context {
     
     NSMutableArray *tweets = [NSMutableArray array];
-    for (NSDictionary *tweetDictonary in tweetsDictArray) {
-        Tweet *tweet = [Tweet tweetWithTwitterInfo:tweetDictonary
+    for (NSDictionary *tweetDictionary in tweetsDictArray) {
+        Tweet *tweet = [Tweet tweetWithTwitterInfo:tweetDictionary
                         generatedByApiEndPoint:apiEndPoint
                                 inManagedObjectContext:context];
         [tweets addObject:tweet];

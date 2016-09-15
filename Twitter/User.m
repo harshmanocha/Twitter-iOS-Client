@@ -13,7 +13,9 @@
 
 // Insert code here to add functionality to your managed object subclass
 
-+ (User *)userWithDictionary:(NSDictionary *)dictionary inManagedObjectContext:(NSManagedObjectContext *)context {
++ (User *)userWithDictionary:(NSDictionary *)dictionary
+      generatedByApiEndPoint:(NSString *)apiEndPoint
+      inManagedObjectContext:(NSManagedObjectContext *)context {
     User *user = nil;
     
     
@@ -45,8 +47,24 @@
         user = [matches lastObject];
     }
     
-    
     return user;
+}
+
++ (NSArray *)loadUsersFromArray:(NSArray *)usersDictArray
+          generatedByApiEndPoint:(NSString *)apiEndPoint
+        intoManagedObjectContext:(NSManagedObjectContext *)context {
+    
+    NSMutableArray *users = [NSMutableArray array];
+    
+    for (NSDictionary *userDictionary in usersDictArray) {
+        User *user = [User userWithDictionary:userDictionary
+                       generatedByApiEndPoint:apiEndPoint
+                       inManagedObjectContext:context];
+        
+        [users addObject:user];
+    }
+    
+    return users;
 }
 
 @end

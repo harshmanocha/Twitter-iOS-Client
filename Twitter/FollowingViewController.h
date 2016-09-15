@@ -6,8 +6,10 @@
 //  Copyright © 2016 Directi. All rights reserved.
 //
 
-#import "UsersTableTableViewController.h"
+#import "UsersTableViewController.h"
 
-@interface FollowingViewController : UsersTableTableViewController
+@interface FollowingViewController : UsersTableViewController
+
+@property (strong, nonatomic) IBOutlet UITableView *followingTableView;
 
 @end

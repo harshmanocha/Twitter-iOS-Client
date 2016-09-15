@@ -51,12 +51,15 @@
     UIImage *tmpImage = [[UIImage alloc] initWithData:data];
     
     user.profileImage = UIImagePNGRepresentation(tmpImage);
+    
+    
     NSError *error = nil;
     // Save the object to persistent store
     NSManagedObjectContext *context = [TimelineViewController managedObjectContext];
     if (![context save:&error]) {
         NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
     }
+    
     
     dispatch_async(dispatch_get_main_queue(), ^{ [self.profileImageView setImage:tmpImage]; });
 }

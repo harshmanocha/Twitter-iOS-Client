@@ -2,22 +2,24 @@
 //  User+CoreDataProperties.m
 //  
 //
-//  Created by harsh.man on 13/09/16.
+//  Created by harsh.man on 15/09/16.
 //
-//
-//  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
-//  to delete and recreate this implementation file for your updated model.
 //
 
 #import "User+CoreDataProperties.h"
 
 @implementation User (CoreDataProperties)
 
++ (NSFetchRequest<User *> *)fetchRequest {
+	return [[NSFetchRequest alloc] initWithEntityName:@"User"];
+}
+
 @dynamic name;
-@dynamic screenname;
-@dynamic profileImageUrl;
-@dynamic tagline;
 @dynamic profileImage;
+@dynamic profileImageUrl;
+@dynamic screenname;
+@dynamic tagline;
+@dynamic generatedByApiEndPoint;
 @dynamic tweets;
 
 @end

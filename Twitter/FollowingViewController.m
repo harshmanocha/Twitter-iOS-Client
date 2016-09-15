@@ -15,13 +15,27 @@
 @implementation FollowingViewController
 
 - (void)viewDidLoad {
+    
+    NSString *userID = [Twitter sharedInstance].sessionStore.session.userID;
+    NSMutableDictionary *paramsForFollowingList = [[NSMutableDictionary alloc] initWithDictionary:@{@"user_id":userID}];
+    self.client = [[TWTRAPIClient alloc] init];
+    
+    [self setUsersTableView:_followingTableView];
+    [self setTwitterRequestApiEndPoint:@"https://api.twitter.com/1.1/friends/list.json"];
+    [self setRequestParams:paramsForFollowingList];
+    
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self.tabBarController setTitle:NSLocalizedString(@"Following", nil)];
 }
 
 /*
