@@ -62,9 +62,11 @@ NSString * const unretweetApiSkeleton = @"https://api.twitter.com/1.1/statuses/u
         
         NSString *createdAtString = tweetDictionary[@"created_at"];
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
         formatter.dateFormat = @"EEE MMM d HH:mm:ss Z y";
         
         tweet.createdAt = [formatter dateFromString:createdAtString];
+//        NSLog(@"Tweet by %@ createdAtString %@ created at %@", tweet.user.name, createdAtString, tweet.createdAt);
         
         tweet.retweetCount = [[NSNumber alloc] initWithLong:[tweetDictionary[@"retweet_count"] integerValue]];
         tweet.favoriteCount = [[NSNumber alloc] initWithLong:[tweetDictionary[@"favorite_count"] integerValue]];

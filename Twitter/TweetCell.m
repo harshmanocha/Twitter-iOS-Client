@@ -110,7 +110,7 @@
     // show relative time since now if 24 hours or less has elapsed
     NSTimeInterval secondsSinceTweet = -[self.tweet.createdAt timeIntervalSinceNow];
     
-    NSLog(@"Seconds since tweet: %f and created at: %@", secondsSinceTweet, _tweet.createdAt);
+//    NSLog(@"For the tweet by %@ - Seconds since tweet: %f and created at: %@", _tweet.user.name, secondsSinceTweet, _tweet.createdAt);
     if (secondsSinceTweet >= 86400) {
         // show month, day, and year
         self.timestampLabel.text = [NSDateFormatter localizedStringFromDate:tweetToDisplay.createdAt

@@ -48,20 +48,19 @@
     // show loading indicator
     self.loadingIndicator = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
+    [self loadDataFromPersistentStorage];
+    
     [self refreshTweets];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
+- (void)loadDataFromPersistentStorage {
     // Fetch the devices from persistent data store
     NSManagedObjectContext *managedObjectContext = [TimelineViewController managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Tweet"];
     [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"generatedByApiEndPoint = %@", self.twitterRequestApiEndPoint]];
     NSSortDescriptor * createdAtSortDescriptor;
     createdAtSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt"
-                                                      ascending:NO];
+                                                          ascending:NO];
     [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:createdAtSortDescriptor, nil]];
     
     self.tweets = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];

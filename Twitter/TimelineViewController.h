@@ -34,6 +34,7 @@
 
 - (void)refreshTweets;
 - (void)getMoreTweets;
+- (void)loadDataFromPersistentStorage;
 
 + (NSManagedObjectContext *)managedObjectContext;
 
