@@ -11,5 +11,8 @@
 @interface FollowingViewController : UsersTableViewController
 
 @property (strong, nonatomic) IBOutlet UITableView *followingTableView;
+@property (nonatomic, strong) User * currentUser;
+
+- (void)loadDataFromPersistentStorageForUserId:(NSString *)userId;
 
 @end

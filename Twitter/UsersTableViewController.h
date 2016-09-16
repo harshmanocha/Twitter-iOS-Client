@@ -27,7 +27,7 @@
 
 - (void)refreshUsers;
 - (void)getMoreUsers;
-- (void)loadDataFromPersistentStorage;
+- (void)setRelationshipOnUsers;
 
 + (NSManagedObjectContext *)managedObjectContext;
 

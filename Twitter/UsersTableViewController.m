@@ -50,29 +50,16 @@
     // show loading indicator
     self.loadingIndicator = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    [self loadDataFromPersistentStorage];
-    
     [self refreshUsers];
-}
-
-- (void)loadDataFromPersistentStorage {
-    // Fetch the devices from persistent data store
-    NSManagedObjectContext *managedObjectContext = [UsersTableViewController managedObjectContext];
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"User"];
-    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"generatedByApiEndPoint = %@", self.twitterRequestApiEndPoint]];
-    NSSortDescriptor * createdAtSortDescriptor;
-    createdAtSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name"
-                                                          ascending:YES];
-    [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:createdAtSortDescriptor, nil]];
-    
-    self.users = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
-    
-    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)setRelationshipOnUsers {
+    // Template design pattern. Implement in subclass.
 }
 
 - (void)refreshUsers {
@@ -95,8 +82,9 @@
                 NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
                 
                 self.users = [User loadUsersFromArray:json[@"users"]
-                                  generatedByApiEndPoint:self.twitterRequestApiEndPoint
                                 intoManagedObjectContext:[UsersTableViewController managedObjectContext]];
+                
+                [self setRelationshipOnUsers];
                 
                 self.nextCursor = json[@"next_cursor_str"];
                 
@@ -158,7 +146,6 @@
                 NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
                 
                 NSArray *moreUsers = [User loadUsersFromArray:json[@"users"]
-                                        generatedByApiEndPoint:self.twitterRequestApiEndPoint
                                       intoManagedObjectContext:[UsersTableViewController managedObjectContext]];
                 
                 self.nextCursor = json[@"next_cursor_str"];

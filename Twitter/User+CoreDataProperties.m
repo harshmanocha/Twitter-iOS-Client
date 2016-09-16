@@ -2,11 +2,11 @@
 //  User+CoreDataProperties.m
 //  
 //
-//  Created by harsh.man on 15/09/16.
+//  Created by harsh.man on 16/09/16.
 //
 //
 
-#import "User+CoreDataProperties.h"
+#import "User.h"
 
 @implementation User (CoreDataProperties)
 
@@ -14,13 +14,14 @@
 	return [[NSFetchRequest alloc] initWithEntityName:@"User"];
 }
 
-@dynamic idStr;
 @dynamic name;
 @dynamic profileImage;
 @dynamic profileImageUrl;
 @dynamic screenname;
 @dynamic tagline;
-@dynamic generatedByApiEndPoint;
+@dynamic idStr;
 @dynamic tweets;
+@dynamic followers;
+@dynamic following;
 
 @end

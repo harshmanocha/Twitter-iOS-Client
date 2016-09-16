@@ -24,6 +24,8 @@
     [self setTwitterRequestApiEndPoint:@"https://api.twitter.com/1.1/followers/list.json"];
     [self setRequestParams:paramsForFollowersList];
     
+    [self loadDataFromPersistentStorageForUserId:userID];
+    
     [super viewDidLoad];
 }
 
@@ -36,6 +38,26 @@
     [super viewDidAppear:animated];
     
     [self.tabBarController setTitle:NSLocalizedString(@"Followers", nil)];
+}
+
+- (void)loadDataFromPersistentStorageForUserId:(NSString *)userId {
+    // Fetch the devices from persistent data store
+    NSManagedObjectContext *managedObjectContext = [UsersTableViewController managedObjectContext];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"User"];
+    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"idStr = %@", userId]];
+    
+    self.currentUser = [[[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy] firstObject];
+    if (self.currentUser) {
+        self.users = [self.currentUser.followers allObjects];
+        NSSortDescriptor * createdAtSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+        self.users = [self.users sortedArrayUsingDescriptors:@[createdAtSortDescriptor]];
+    }
+    
+    [self.tableView reloadData];
+}
+
+- (void)setRelationshipOnUsers {
+    [self.currentUser addFollowers:[NSSet setWithArray:self.users]];
 }
 
 /*

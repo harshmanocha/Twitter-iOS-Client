@@ -55,7 +55,6 @@ NSString * const unretweetApiSkeleton = @"https://api.twitter.com/1.1/statuses/u
         tweet.idStr = tweetId;
         
         tweet.user = [User userWithDictionary:tweetDictionary[@"user"]
-                       generatedByApiEndPoint:apiEndPoint
                        inManagedObjectContext:context];
         
         [tweet.user addTweetsObject:tweet];

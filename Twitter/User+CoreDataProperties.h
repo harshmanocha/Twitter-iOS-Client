@@ -2,7 +2,7 @@
 //  User+CoreDataProperties.h
 //  
 //
-//  Created by harsh.man on 15/09/16.
+//  Created by harsh.man on 16/09/16.
 //
 //
 
@@ -15,14 +15,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSFetchRequest<User *> *)fetchRequest;
 
-@property (nullable, nonatomic, copy) NSString *idStr;
 @property (nullable, nonatomic, copy) NSString *name;
 @property (nullable, nonatomic, retain) NSData *profileImage;
 @property (nullable, nonatomic, copy) NSString *profileImageUrl;
 @property (nullable, nonatomic, copy) NSString *screenname;
 @property (nullable, nonatomic, copy) NSString *tagline;
-@property (nullable, nonatomic, copy) NSString *generatedByApiEndPoint;
+@property (nullable, nonatomic, copy) NSString *idStr;
 @property (nullable, nonatomic, retain) NSSet<Tweet *> *tweets;
+@property (nullable, nonatomic, retain) NSSet<User *> *followers;
+@property (nullable, nonatomic, retain) NSSet<User *> *following;
 
 @end
 
@@ -32,6 +33,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeTweetsObject:(Tweet *)value;
 - (void)addTweets:(NSSet<Tweet *> *)values;
 - (void)removeTweets:(NSSet<Tweet *> *)values;
+
+- (void)addFollowersObject:(User *)value;
+- (void)removeFollowersObject:(User *)value;
+- (void)addFollowers:(NSSet<User *> *)values;
+- (void)removeFollowers:(NSSet<User *> *)values;
+
+- (void)addFollowingObject:(User *)value;
+- (void)removeFollowingObject:(User *)value;
+- (void)addFollowing:(NSSet<User *> *)values;
+- (void)removeFollowing:(NSSet<User *> *)values;
 
 @end
 
