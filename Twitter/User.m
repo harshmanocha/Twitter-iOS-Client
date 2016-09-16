@@ -26,7 +26,7 @@
     NSArray *matches = [context executeFetchRequest:request error:&error];
     
     if (!matches || ([matches count] > 1)) {
-        // handle error
+        NSLog(@"Error in loading user from CoreData for user with screename %@", screenName);
     }
     else if (![matches count]) {
         user = [NSEntityDescription insertNewObjectForEntityForName:@"User"
@@ -49,6 +49,8 @@
     }
     else {
         user = [matches lastObject];
+        user.profileImageUrl = dictionary[@"profile_image_url"];
+        user.tagline = dictionary[@"description"];
     }
     
     return user;
