@@ -50,6 +50,8 @@
     else {
         user = [matches lastObject];
         user.profileImageUrl = dictionary[@"profile_image_url"];
+        if ([user.profileImageUrl hasPrefix:@"http://"])
+            user.profileImageUrl = [user.profileImageUrl stringByReplacingOccurrencesOfString:@"http://" withString:@"https://"];
         user.tagline = dictionary[@"description"];
     }
     

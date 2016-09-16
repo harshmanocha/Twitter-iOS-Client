@@ -43,6 +43,7 @@
     // Configure the view for the selected state
 }
 
+/*
 - (void)downloadAndLoadProfileImageOfUser:(NSString *)imageUrl {
     if ([imageUrl hasPrefix:@"http://"])
         imageUrl = [imageUrl stringByReplacingOccurrencesOfString:@"http://" withString:@"https://"];
@@ -52,6 +53,7 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{ [self.profileImageView setImage:profileImage]; });
 }
+*/
 
 - (void)setTweet:(Tweet *)tweet {
     _tweet = tweet;
@@ -100,6 +102,7 @@
     }
      */
     
+//    NSLog(@"URL: %@", tweetToDisplay.user.profileImageUrl);
     NSURL *url = [NSURL URLWithString:tweetToDisplay.user.profileImageUrl];
     [self.profileImageView hnk_setImageFromURL:url];
     

@@ -32,7 +32,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
+    NSLog(@"Switched to home feed tab");
     [self.tabBarController setTitle:NSLocalizedString(@"Home Feed", nil)];
 }
 

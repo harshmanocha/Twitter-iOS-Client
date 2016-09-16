@@ -37,6 +37,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+    NSLog(@"Switched to following tab");
     [self.tabBarController setTitle:NSLocalizedString(@"Following", nil)];
 }
 

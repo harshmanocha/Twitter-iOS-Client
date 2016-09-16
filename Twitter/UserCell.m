@@ -54,19 +54,4 @@
     self.screenNameLabel.text = [NSString stringWithFormat:@"@%@", user.screenname];
 }
 
-- (void)downloadAndLoadProfileImageOfUser:(NSString *)imageUrl {
-    NSString *newImageUrl = imageUrl;
-    if ([imageUrl hasPrefix:@"http://"])
-        newImageUrl = [imageUrl stringByReplacingOccurrencesOfString:@"http://" withString:@"https://"];
-    NSURL *url = [NSURL URLWithString:newImageUrl];
-    NSData *data = [[NSData alloc] initWithContentsOfURL:url];
-    UIImage *profileImage = [[UIImage alloc] initWithData:data];
-    
-//    SAMCache *cache = [SAMCache sharedCache];
-//    [cache setImage:profileImage forKey:imageUrl];
-//    NSLog(@"Image key %@ set in cache", imageUrl);
-    
-    dispatch_async(dispatch_get_main_queue(), ^{ [self.profileImageView setImage:profileImage]; });
-}
-
 @end

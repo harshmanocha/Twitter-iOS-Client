@@ -37,6 +37,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+    NSLog(@"Switched to user timeline tab");
     if (_isUserSameAsTheLoggedInUser)
         [self.tabBarController setTitle:NSLocalizedString(@"User Timeline", nil)];
     else
