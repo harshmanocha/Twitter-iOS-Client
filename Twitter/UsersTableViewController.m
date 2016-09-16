@@ -50,7 +50,7 @@
     // show loading indicator
     self.loadingIndicator = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    [self refreshUsers];
+//    [self refreshUsers];
 }
 
 - (void)didReceiveMemoryWarning {
