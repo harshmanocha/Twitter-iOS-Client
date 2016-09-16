@@ -52,6 +52,7 @@
         self.users = [self.currentUser.followers allObjects];
         NSSortDescriptor * createdAtSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
         self.users = [self.users sortedArrayUsingDescriptors:@[createdAtSortDescriptor]];
+        NSLog(@"Number of fetched followers from core data: %lu", (unsigned long)self.users.count);
     }
     
     [self.tableView reloadData];
@@ -59,6 +60,7 @@
 
 - (void)setRelationshipOnUsers:(nullable NSArray *)users {
     if (!users)
+        users = self.users;
     [self.currentUser addFollowers:[NSSet setWithArray:self.users]];
 }
 

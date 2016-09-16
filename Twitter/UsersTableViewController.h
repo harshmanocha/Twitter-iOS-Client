@@ -13,17 +13,16 @@
 
 @interface UsersTableViewController : UITableViewController
 
-@property (nonatomic, strong) TWTRAPIClient *client;
-
+@property (nonatomic, strong) TWTRAPIClient * client;
 @property (strong, nonatomic) NSString * twitterRequestApiEndPoint;
 @property (strong, nonatomic) NSMutableDictionary * requestParams;
-
-@property (weak, nonatomic) UITableView *usersTableView;
-
 @property (strong, nonatomic) NSArray *users;
 @property (strong, nonatomic) NSString *nextCursor;
 @property (strong, nonatomic) UIRefreshControl *refreshUsersControl;
 @property (strong, nonatomic) MBProgressHUD *loadingIndicator;
+
+@property (weak, nonatomic) UITableView *usersTableView;
+
 
 - (void)refreshUsers;
 - (void)getMoreUsers;

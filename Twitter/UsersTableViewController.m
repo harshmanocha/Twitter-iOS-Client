@@ -50,7 +50,11 @@
     // show loading indicator
     self.loadingIndicator = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-//    [self refreshUsers];
+    NSLog(@"Number of fetched users from core data: %lu", (unsigned long)self.users.count);
+    if (self.users.count)
+        [self.loadingIndicator hideAnimated:YES];
+    else
+        [self refreshUsers];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,6 +64,10 @@
 
 - (void)setRelationshipOnUsers:(nullable NSArray *)users {
     // Template design pattern. Implement in subclass.
+}
+
+- (void)checkForNewUsers {
+    
 }
 
 - (void)refreshUsers {
@@ -89,12 +97,17 @@
                 self.nextCursor = json[@"next_cursor_str"];
                 
                 [self.usersTableView reloadData];
+                [self.loadingIndicator hideAnimated:YES];
+                [self.refreshUsersControl endRefreshing];
+                
+                [self getMoreUsers];
             }
             else {
                 NSLog(@"Connection Error: %@", connectionError);
+                
+                [self.loadingIndicator hideAnimated:YES];
+                [self.refreshUsersControl endRefreshing];
             }
-            [self.loadingIndicator hideAnimated:YES];
-            [self.refreshUsersControl endRefreshing];
         }];
     }
     else {
@@ -127,7 +140,7 @@
 }
 
 - (void) getMoreUsers {
-    if (!self.nextCursor) {
+    if (!self.nextCursor || [self.nextCursor isEqualToString:@"0"]) {   
         return;
     }
     
@@ -157,6 +170,8 @@
                     [temp addObjectsFromArray:moreUsers];
                     self.users = [temp copy];
                     [self.usersTableView reloadData];
+                    
+                    [self getMoreUsers];
                 }
                 else {
                     NSLog(@"No more users available");

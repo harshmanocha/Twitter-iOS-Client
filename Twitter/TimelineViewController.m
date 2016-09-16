@@ -69,52 +69,52 @@
 }
 
 - (void)getRecentTweets {
-    __block BOOL moreTweetsAvailable = YES;
+    if (!self.tweets.count) {
+        [self refreshTweets];
+        return;
+    }
+        
+    NSString *sinceIdStr = [self.tweets[0] idStr];
+    NSLog(@"About to fetch recent tweets with since id: %@", sinceIdStr);
+    [self.requestParams setObject:sinceIdStr forKey:@"since_id"];
     
-    while (moreTweetsAvailable) {
-        // if no previous id str available, then don't do anything
-        NSString *sinceIdStr = [self.tweets[0] idStr];
-        if (!sinceIdStr) {
-            return;
-        }
-        
-        [self.requestParams setObject:sinceIdStr forKey:@"since_id"];
-        
-        NSError *clientError;
-        NSURLRequest *request = [self.client URLRequestWithMethod:@"GET"
-                                                              URL:self.twitterRequestApiEndPoint
-                                                       parameters:self.requestParams
-                                                            error:&clientError];
-        if (request) {
-            [self.client sendTwitterRequest:request completion:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                if (data) {
-                    // handle the response data
-                    NSError *jsonError;
-                    NSArray *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
-                    
-                    NSArray *moreTweets = [Tweet loadTweetsFromArray:json
-                                              generatedByApiEndPoint:self.twitterRequestApiEndPoint
-                                            intoManagedObjectContext:[TimelineViewController managedObjectContext]];
-                    if (moreTweets.count > 0) {
-                        NSLog(@"Got %lu more new recent tweets", (unsigned long)moreTweets.count);
-                        NSMutableArray *temp = [NSMutableArray arrayWithArray:moreTweets];
-                        [temp addObjectsFromArray:self.tweets];
-                        self.tweets = [temp copy];
-                        [self.tweetTableView reloadData];
-                    }
-                    else {
-                        NSLog(@"No more recent tweets available");
-                        moreTweetsAvailable = NO;
-                    }
+    NSError *clientError;
+    NSURLRequest *request = [self.client URLRequestWithMethod:@"GET"
+                                                          URL:self.twitterRequestApiEndPoint
+                                                   parameters:self.requestParams
+                                                        error:&clientError];
+    if (request) {
+        [self.client sendTwitterRequest:request completion:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+            if (data) {
+                // handle the response data
+                NSError *jsonError;
+                NSArray *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
+                
+                NSArray *moreTweets = [Tweet loadTweetsFromArray:json
+                                          generatedByApiEndPoint:self.twitterRequestApiEndPoint
+                                        intoManagedObjectContext:[TimelineViewController managedObjectContext]];
+                if (moreTweets.count > 0) {
+                    NSLog(@"Got %lu more new recent tweets", (unsigned long)moreTweets.count);
+                    NSMutableArray *temp = [NSMutableArray arrayWithArray:moreTweets];
+                    [temp addObjectsFromArray:self.tweets];
+                    self.tweets = [temp copy];
+                    [self.loadingIndicator hideAnimated:YES];
+                    [self.tweetTableView reloadData];
+                    [self getRecentTweets];
                 }
                 else {
-                    NSLog(@"Error: %@", connectionError);
+                    NSLog(@"No more recent tweets available");
+                    [self.loadingIndicator hideAnimated:YES];
+                    [self.tweetTableView reloadData];
                 }
-            }];
-        }
-        else {
-            NSLog(@"Error: %@", clientError);
-        }
+            }
+            else {
+                NSLog(@"Error: %@", connectionError);
+            }
+        }];
+    }
+    else {
+        NSLog(@"Error: %@", clientError);
     }
 }
 
@@ -123,6 +123,7 @@
     NSLog(@"Fetching/refreshing tweets");
     
     [self.requestParams removeObjectForKey:@"max_id"];
+    [self.requestParams removeObjectForKey:@"since_id"];
     
     NSError *clientError;
     NSURLRequest *request = [self.client URLRequestWithMethod:@"GET"
@@ -173,6 +174,8 @@
 }
 
 - (void) getMoreTweets {
+    [self.requestParams removeObjectForKey:@"since_id"];
+    
     // if no previous max id str available, then don't do anything
     NSString *maxIdStr = [self.tweets[self.tweets.count - 1] idStr];
     if (!maxIdStr) {

@@ -20,15 +20,13 @@
 @interface TimelineViewController : UITableViewController <TweetCellDelegate>
 
 @property (nonatomic, strong) TWTRAPIClient *client;
-
 @property (strong, nonatomic) NSString * twitterRequestApiEndPoint;
 @property (strong, nonatomic) NSMutableDictionary * requestParams;
-
-@property (weak, nonatomic) UITableView *tweetTableView;
-
 @property (strong, nonatomic) NSArray *tweets;
 @property (strong, nonatomic) UIRefreshControl *refreshTweetsControl;
 @property (strong, nonatomic) MBProgressHUD *loadingIndicator;
+
+@property (weak, nonatomic) UITableView *tweetTableView;
 
 @property (nonatomic, weak) id <TimelineDelegate> delegate;
 

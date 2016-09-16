@@ -52,12 +52,18 @@
         self.users = [self.currentUser.following allObjects];
         NSSortDescriptor * createdAtSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
         self.users = [self.users sortedArrayUsingDescriptors:@[createdAtSortDescriptor]];
+        NSLog(@"Number of fetched followers from core data: %lu", (unsigned long)self.users.count);
+    }
+    else {
+        NSLog(@"Current user not found in DB");
     }
     
     [self.tableView reloadData];
 }
 
 - (void)setRelationshipOnUsers:(nullable NSArray *)users {
+    if (!users)
+        users = self.users;
     [self.currentUser addFollowing:[NSSet setWithArray:self.users]];
 }
 
