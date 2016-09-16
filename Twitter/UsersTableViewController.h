@@ -27,7 +27,7 @@
 
 - (void)refreshUsers;
 - (void)getMoreUsers;
-- (void)setRelationshipOnUsers;
+- (void)setRelationshipOnUsers:(nullable NSArray *)users;
 
 + (NSManagedObjectContext *)managedObjectContext;
 

@@ -15,7 +15,6 @@
 }
 
 @dynamic name;
-@dynamic profileImage;
 @dynamic profileImageUrl;
 @dynamic screenname;
 @dynamic tagline;

@@ -34,7 +34,11 @@
         user.idStr = dictionary[@"id_str"];
         user.screenname = screenName;
         user.name = dictionary[@"name"];
+        
         user.profileImageUrl = dictionary[@"profile_image_url"];
+        if ([user.profileImageUrl hasPrefix:@"http://"])
+            user.profileImageUrl = [user.profileImageUrl stringByReplacingOccurrencesOfString:@"http://" withString:@"https://"];
+         
         user.tagline = dictionary[@"description"];
         
         NSError *error = nil;

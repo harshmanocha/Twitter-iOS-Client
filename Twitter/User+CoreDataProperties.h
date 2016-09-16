@@ -16,7 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSFetchRequest<User *> *)fetchRequest;
 
 @property (nullable, nonatomic, copy) NSString *name;
-@property (nullable, nonatomic, retain) NSData *profileImage;
 @property (nullable, nonatomic, copy) NSString *profileImageUrl;
 @property (nullable, nonatomic, copy) NSString *screenname;
 @property (nullable, nonatomic, copy) NSString *tagline;

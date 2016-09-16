@@ -8,6 +8,7 @@
 
 #import "TweetCell.h"
 #import "TimelineViewController.h"
+#import "UIImageView+Haneke.h"
 
 @interface TweetCell()
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
@@ -42,26 +43,14 @@
     // Configure the view for the selected state
 }
 
-- (void)downloadAndLoadProfileImageOfUser:(User *)user {
-    NSString *imageUrl = user.profileImageUrl;
+- (void)downloadAndLoadProfileImageOfUser:(NSString *)imageUrl {
     if ([imageUrl hasPrefix:@"http://"])
         imageUrl = [imageUrl stringByReplacingOccurrencesOfString:@"http://" withString:@"https://"];
     NSURL *url = [NSURL URLWithString:imageUrl];
     NSData *data = [[NSData alloc] initWithContentsOfURL:url];
-    UIImage *tmpImage = [[UIImage alloc] initWithData:data];
+    UIImage *profileImage = [[UIImage alloc] initWithData:data];
     
-    user.profileImage = UIImagePNGRepresentation(tmpImage);
-    
-    
-    NSError *error = nil;
-    // Save the object to persistent store
-    NSManagedObjectContext *context = [TimelineViewController managedObjectContext];
-    if (![context save:&error]) {
-        NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
-    }
-    
-    
-    dispatch_async(dispatch_get_main_queue(), ^{ [self.profileImageView setImage:tmpImage]; });
+    dispatch_async(dispatch_get_main_queue(), ^{ [self.profileImageView setImage:profileImage]; });
 }
 
 - (void)setTweet:(Tweet *)tweet {
@@ -72,7 +61,8 @@
     
     if (tweet.retweetedTweet) {
         tweetToDisplay = tweet.retweetedTweet;
-        self.retweetedByLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%@ retweeted", nil), user.name];
+        user = tweetToDisplay.user;
+        self.retweetedByLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%@ retweeted", nil), tweet.user.name];
         [self.retweetView setHidden:NO];
         [self.retweetedByLabel setHidden:NO];
         // update constraints dynamically
@@ -96,15 +86,22 @@
     [layer setMasksToBounds:YES];
     [layer setCornerRadius:3.0];
     
-    if (tweetToDisplay.user.profileImage) {
-        UIImage *profileImage = [UIImage imageWithData:tweetToDisplay.user.profileImage];
+    /*
+    SAMCache *cache = [SAMCache sharedCache];
+    
+    if ([cache imageExistsForKey:user.profileImageUrl]) {
+        UIImage *profileImage = [cache imageForKey:user.profileImageUrl];
         [self.profileImageView setImage:profileImage];
     }
     else {
     [NSThread detachNewThreadSelector:@selector(downloadAndLoadProfileImageOfUser:)
                              toTarget:self
-                           withObject:tweetToDisplay.user];
+                           withObject:user.profileImageUrl];
     }
+     */
+    
+    NSURL *url = [NSURL URLWithString:tweetToDisplay.user.profileImageUrl];
+    [self.profileImageView hnk_setImageFromURL:url];
     
     self.nameLabel.text = tweetToDisplay.user.name;
     self.screenNameLabel.text = [NSString stringWithFormat:@"@%@", tweetToDisplay.user.screenname];

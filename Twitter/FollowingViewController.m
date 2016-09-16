@@ -56,7 +56,7 @@
     [self.tableView reloadData];
 }
 
-- (void)setRelationshipOnUsers {
+- (void)setRelationshipOnUsers:(nullable NSArray *)users {
     [self.currentUser addFollowing:[NSSet setWithArray:self.users]];
 }
 

@@ -9,4 +9,5 @@ target 'Twitter' do
     pod 'Fabric'
     pod 'TwitterKit'
     pod 'MBProgressHUD', '~> 1.0.0'
+    pod 'Haneke', '~> 1.0'
 end

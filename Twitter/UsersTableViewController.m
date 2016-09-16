@@ -58,7 +58,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setRelationshipOnUsers {
+- (void)setRelationshipOnUsers:(nullable NSArray *)users {
     // Template design pattern. Implement in subclass.
 }
 
@@ -84,7 +84,7 @@
                 self.users = [User loadUsersFromArray:json[@"users"]
                                 intoManagedObjectContext:[UsersTableViewController managedObjectContext]];
                 
-                [self setRelationshipOnUsers];
+                [self setRelationshipOnUsers:nil];
                 
                 self.nextCursor = json[@"next_cursor_str"];
                 
@@ -152,6 +152,7 @@
                 
                 if (moreUsers.count > 0) {
                     NSLog(@"Got %lu more users", moreUsers.count);
+                    [self setRelationshipOnUsers:moreUsers];
                     NSMutableArray *temp = [NSMutableArray arrayWithArray:self.users];
                     [temp addObjectsFromArray:moreUsers];
                     self.users = [temp copy];

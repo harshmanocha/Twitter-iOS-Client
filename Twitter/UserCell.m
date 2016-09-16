@@ -8,6 +8,7 @@
 
 #import "UserCell.h"
 #import "UsersTableViewController.h"
+#import "UIImageView+Haneke.h"
 
 @implementation UserCell
 
@@ -30,37 +31,42 @@
     [layer setMasksToBounds:YES];
     [layer setCornerRadius:3.0];
     
-    if (user.profileImage) {
-        UIImage *profileImage = [UIImage imageWithData:user.profileImage];
+    /*
+    SAMCache *cache = [SAMCache sharedCache];
+    
+    if ([cache imageExistsForKey:user.profileImageUrl]) {
+        NSLog(@"Image key %@ exists in cache", user.profileImageUrl);
+        UIImage *profileImage = [cache imageForKey:user.profileImageUrl];
         [self.profileImageView setImage:profileImage];
     }
     else {
+        NSLog(@"Image key %@ doesn't exist in cache", user.profileImageUrl);
         [NSThread detachNewThreadSelector:@selector(downloadAndLoadProfileImageOfUser:)
                                  toTarget:self
-                               withObject:user];
+                               withObject:user.profileImageUrl];
     }
+     */
+    
+    NSURL *url = [NSURL URLWithString:user.profileImageUrl];
+    [self.profileImageView hnk_setImageFromURL:url];
     
     self.nameLabel.text = user.name;
     self.screenNameLabel.text = [NSString stringWithFormat:@"@%@", user.screenname];
 }
 
-- (void)downloadAndLoadProfileImageOfUser:(User *)user {
-    NSString *imageUrl = user.profileImageUrl;
+- (void)downloadAndLoadProfileImageOfUser:(NSString *)imageUrl {
+    NSString *newImageUrl = imageUrl;
     if ([imageUrl hasPrefix:@"http://"])
-        imageUrl = [imageUrl stringByReplacingOccurrencesOfString:@"http://" withString:@"https://"];
-    NSURL *url = [NSURL URLWithString:imageUrl];
+        newImageUrl = [imageUrl stringByReplacingOccurrencesOfString:@"http://" withString:@"https://"];
+    NSURL *url = [NSURL URLWithString:newImageUrl];
     NSData *data = [[NSData alloc] initWithContentsOfURL:url];
-    UIImage *tmpImage = [[UIImage alloc] initWithData:data];
+    UIImage *profileImage = [[UIImage alloc] initWithData:data];
     
-    user.profileImage = UIImagePNGRepresentation(tmpImage);
-    NSError *error = nil;
-    // Save the object to persistent store
-    NSManagedObjectContext *context = [UsersTableViewController managedObjectContext];
-    if (![context save:&error]) {
-        NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
-    }
+//    SAMCache *cache = [SAMCache sharedCache];
+//    [cache setImage:profileImage forKey:imageUrl];
+//    NSLog(@"Image key %@ set in cache", imageUrl);
     
-    dispatch_async(dispatch_get_main_queue(), ^{ [self.profileImageView setImage:tmpImage]; });
+    dispatch_async(dispatch_get_main_queue(), ^{ [self.profileImageView setImage:profileImage]; });
 }
 
 @end

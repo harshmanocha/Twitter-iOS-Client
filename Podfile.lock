@@ -1,5 +1,6 @@
 PODS:
   - Fabric (1.6.8)
+  - Haneke (1.0.2)
   - MBProgressHUD (1.0.0)
   - TwitterCore (2.4.0):
     - Fabric
@@ -8,15 +9,17 @@ PODS:
 
 DEPENDENCIES:
   - Fabric
+  - Haneke (~> 1.0)
   - MBProgressHUD (~> 1.0.0)
   - TwitterKit
 
 SPEC CHECKSUMS:
   Fabric: 5755268d0171435ab167e3d0878a28a777deaf10
+  Haneke: 01454a67322faa0dd9d81fc0f447885044e71521
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   TwitterCore: a139904c80805ad3dde9eef1100704f96f646d1d
   TwitterKit: 1cf9742edf9d182c1518cfdd6aaac0dfe313b38b
 
-PODFILE CHECKSUM: 138f6bbed4a02e88bd4a96bdd76817c772767299
+PODFILE CHECKSUM: 4ac878392990b48adfcf8746bc6e26486e578f2a
 
 COCOAPODS: 1.0.1

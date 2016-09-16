@@ -11,8 +11,11 @@
 @implementation UserTimelineViewController
 
 - (void)viewDidLoad {
-    if (!self.userId)
+    self.isUserSameAsTheLoggedInUser = NO;
+    if (!self.userId) {
         self.userId = [Twitter sharedInstance].sessionStore.session.userID;
+        self.isUserSameAsTheLoggedInUser = YES;
+    }
     
     NSMutableDictionary *paramsForUserTimeline = [[NSMutableDictionary alloc] initWithDictionary:@{@"user_id":self.userId}];
     self.client = [[TWTRAPIClient alloc] init];
@@ -34,10 +37,10 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    if (self.userId)
-        [self.tabBarController setTitle:@"TOBECHANGED"];
-    else
+    if (_isUserSameAsTheLoggedInUser)
         [self.tabBarController setTitle:NSLocalizedString(@"User Timeline", nil)];
+    else
+        self.navigationItem.title = self.nameOfUser;
 }
 
 - (void)loadDataFromPersistentStorage {
@@ -47,6 +50,7 @@
     [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"idStr = %@", self.userId]];
     
     User *user = [[[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy] firstObject];
+    self.nameOfUser = user.name;
     
     if (user) {
         self.tweets = [[user tweets] allObjects];

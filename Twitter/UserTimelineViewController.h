@@ -12,6 +12,8 @@
 @interface UserTimelineViewController : TimelineViewController
 
 @property (strong, nonatomic) NSString *userId;
+@property (strong, nonatomic) NSString *nameOfUser;
+@property (nonatomic) BOOL isUserSameAsTheLoggedInUser;
 @property (strong, nonatomic) IBOutlet UITableView *userTimelineTableView;
 
 @end
