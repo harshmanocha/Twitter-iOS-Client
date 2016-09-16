@@ -35,7 +35,7 @@
     [super viewDidAppear:animated];
     
     if (self.userId)
-        [self.navigationController setTitle:@"TOBECHANGED"];
+        [self.tabBarController setTitle:@"TOBECHANGED"];
     else
         [self.tabBarController setTitle:NSLocalizedString(@"User Timeline", nil)];
 }

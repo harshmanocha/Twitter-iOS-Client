@@ -12,6 +12,8 @@
 
 @interface UsersTableViewController ()
 
+@property (nonatomic) long indexPathRow;
+
 @end
 
 @implementation UsersTableViewController
@@ -186,6 +188,7 @@
     // unhighlight selection
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    self.indexPathRow = [indexPath row];
     [self performSegueWithIdentifier:@"userTimelineSeque"
                               sender:self];
 }
@@ -231,8 +234,9 @@
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"userTimelineSeque"]) {
-        NSIndexPath *path = [self.usersTableView indexPathForSelectedRow];
-        NSString *userID = ((User *)self.users[path.row]).idStr;
+//        NSIndexPath *path = [self.usersTableView indexPathForSelectedRow];
+//        NSLog(@"Index path row: %li", path.row);
+        NSString *userID = ((User *)self.users[self.indexPathRow]).idStr;
         UserTimelineViewController *destinationViewController = (UserTimelineViewController *)segue.destinationViewController;
         [destinationViewController setUserId:userID];
     }
