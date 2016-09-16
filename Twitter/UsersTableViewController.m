@@ -8,6 +8,7 @@
 
 #import "UsersTableViewController.h"
 #import "UserCell.h"
+#import "UserTimelineViewController.h"
 
 @interface UsersTableViewController ()
 
@@ -184,6 +185,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // unhighlight selection
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    [self performSegueWithIdentifier:@"userTimelineSeque"
+                              sender:self];
 }
 
 
@@ -221,14 +225,18 @@
 }
 */
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"userTimelineSeque"]) {
+        NSIndexPath *path = [self.usersTableView indexPathForSelectedRow];
+        NSString *userID = ((User *)self.users[path.row]).idStr;
+        UserTimelineViewController *destinationViewController = (UserTimelineViewController *)segue.destinationViewController;
+        [destinationViewController setUserId:userID];
+    }
 }
-*/
+
 
 @end

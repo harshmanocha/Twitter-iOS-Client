@@ -11,13 +11,17 @@
 @implementation UserTimelineViewController
 
 - (void)viewDidLoad {
-    NSString *userID = [Twitter sharedInstance].sessionStore.session.userID;
-    NSMutableDictionary *paramsForUserTimeline = [[NSMutableDictionary alloc] initWithDictionary:@{@"user_id":userID}];
+    if (!self.userId)
+        self.userId = [Twitter sharedInstance].sessionStore.session.userID;
+    
+    NSMutableDictionary *paramsForUserTimeline = [[NSMutableDictionary alloc] initWithDictionary:@{@"user_id":self.userId}];
     self.client = [[TWTRAPIClient alloc] init];
     
     [self setTweetTableView:_userTimelineTableView];
     [self setTwitterRequestApiEndPoint:@"https://api.twitter.com/1.1/statuses/user_timeline.json"];
     [self setRequestParams:paramsForUserTimeline];
+    
+    NSLog(@"About to show user timeline of user with ID: %@", self.userId);
     
     [super viewDidLoad];
 }
@@ -30,7 +34,27 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self.tabBarController setTitle:NSLocalizedString(@"User Timeline", nil)];
+    if (self.userId)
+        [self.navigationController setTitle:@"TOBECHANGED"];
+    else
+        [self.tabBarController setTitle:NSLocalizedString(@"User Timeline", nil)];
+}
+
+- (void)loadDataFromPersistentStorage {
+    // Fetch the devices from persistent data store
+    NSManagedObjectContext *managedObjectContext = [TimelineViewController managedObjectContext];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"User"];
+    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"idStr = %@", self.userId]];
+    
+    User *user = [[[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy] firstObject];
+    
+    if (user) {
+        self.tweets = [[user tweets] allObjects];
+        NSSortDescriptor * createdAtSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:NO];
+        self.tweets = [self.tweets sortedArrayUsingDescriptors:@[createdAtSortDescriptor]];
+    }
+    
+    [self.tableView reloadData];
 }
 
 /*

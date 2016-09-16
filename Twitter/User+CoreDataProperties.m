@@ -14,6 +14,7 @@
 	return [[NSFetchRequest alloc] initWithEntityName:@"User"];
 }
 
+@dynamic idStr;
 @dynamic name;
 @dynamic profileImage;
 @dynamic profileImageUrl;

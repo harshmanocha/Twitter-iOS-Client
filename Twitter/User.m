@@ -32,6 +32,7 @@
     else if (![matches count]) {
         user = [NSEntityDescription insertNewObjectForEntityForName:@"User"
                                              inManagedObjectContext:context];
+        user.idStr = dictionary[@"id_str"];
         user.screenname = screenName;
         user.name = dictionary[@"name"];
         user.profileImageUrl = dictionary[@"profile_image_url"];

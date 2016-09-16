@@ -147,11 +147,33 @@
                     <tabBarItem key="tabBarItem" title="Following" image="Following_tab" id="xee-DU-cxt"/>
                     <connections>
                         <outlet property="followingTableView" destination="e3t-xS-zhc" id="SJm-P4-JpR"/>
+                        <segue destination="kyi-XW-Skv" kind="show" identifier="userTimelineSeque" id="Vw6-5S-cvV"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mvY-FU-WkA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="837" y="1079"/>
+        </scene>
+        <!--User Timeline View Controller-->
+        <scene sceneID="Brd-Tg-pxV">
+            <objects>
+                <tableViewController id="kyi-XW-Skv" customClass="UserTimelineViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="lAL-OR-oJb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="kyi-XW-Skv" id="MnY-5C-z7f"/>
+                            <outlet property="delegate" destination="kyi-XW-Skv" id="31n-e8-Ncs"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <outlet property="userTimelineTableView" destination="lAL-OR-oJb" id="Uwu-So-ICl"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pDD-3V-0Dr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2052" y="1261"/>
         </scene>
         <!--Followers-->
         <scene sceneID="yw2-KQ-YRq">
@@ -169,6 +191,7 @@
                     <tabBarItem key="tabBarItem" title="Followers" image="Followers_tab" id="Fom-HF-022"/>
                     <connections>
                         <outlet property="followersTableView" destination="Gsc-Kk-RBh" id="4Dc-Sb-yTg"/>
+                        <segue destination="kyi-XW-Skv" kind="show" identifier="userTimelineSeque" id="81F-gl-GzV"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v3Q-6t-7P2" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -217,4 +240,7 @@
         <image name="Twitter_logo_white" width="379" height="308"/>
         <image name="UserTimeline_tab" width="25" height="25"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="81F-gl-GzV"/>
+    </inferredMetricsTieBreakers>
 </document>

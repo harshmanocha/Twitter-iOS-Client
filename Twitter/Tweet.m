@@ -58,6 +58,8 @@ NSString * const unretweetApiSkeleton = @"https://api.twitter.com/1.1/statuses/u
                        generatedByApiEndPoint:apiEndPoint
                        inManagedObjectContext:context];
         
+        [tweet.user addTweetsObject:tweet];
+        
         tweet.text = [tweetDictionary[@"text"] stringByReplacingOccurrencesOfString:@"&amp;"
                                                                          withString:@"&"];
         

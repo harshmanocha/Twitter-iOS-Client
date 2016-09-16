@@ -11,6 +11,7 @@
 
 @interface UserTimelineViewController : TimelineViewController
 
+@property (strong, nonatomic) NSString *userId;
 @property (strong, nonatomic) IBOutlet UITableView *userTimelineTableView;
 
 @end
