@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Tweet.h"
+#import "LocalizeHelper.h"
 
 @class TweetCell;
 
@@ -17,7 +18,7 @@
 
 @end
 
-@interface TweetCell : UITableViewCell
+@interface TweetCell : UITableViewCell <RefreshLocalizedTextOnViewProtocol>
 
 @property (nonatomic, strong) Tweet *tweet;
 

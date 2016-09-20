@@ -7,8 +7,10 @@
 //
 
 #import "AppDelegate.h"
+#import "Language+CoreDataClass.h"
 #import <Fabric/Fabric.h>
 #import <TwitterKit/TwitterKit.h>
+#import "LocalizeHelper.h"
 
 @interface AppDelegate ()
 
@@ -24,9 +26,6 @@
     
     return NO;
 }
-
-
-
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [Fabric with:@[[Twitter class]]];
@@ -45,15 +44,51 @@
     else
         NSLog(@"User already signed in!");
     
-    /*
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *fileName =[NSString stringWithFormat:@"%@.log",[NSDate date]];
-    NSString *logFilePath = [documentsDirectory stringByAppendingPathComponent:fileName];
-    freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
-     */
-    
+    [self addLanguagesToAndLoadFromCoreData];
+    self.viewsDrawn = [NSPointerArray weakObjectsPointerArray];
     return YES;
+}
+
+- (void)redrawViews {
+    for (id<RefreshLocalizedTextOnViewProtocol> delegate in self.viewsDrawn) {
+        if (delegate) {
+//            NSLog(@"Redrawing view");
+            [delegate refreshLocalizedText];
+        }
+    }
+}
+
+- (void)addViewForRefreshingLocalizedText:(id<RefreshLocalizedTextOnViewProtocol>)view {
+    if (view) {
+//        NSLog(@"Adding new vi ew");
+        [self.viewsDrawn addPointer:(__bridge void * _Nullable)(view)];
+    }
+}
+
+- (void)addLanguagesToAndLoadFromCoreData {
+    NSManagedObjectContext *context = [self managedObjectContext];
+    NSMutableArray *addedLanguages = [[NSMutableArray alloc] init];
+    
+    [addedLanguages addObject:[Language languageWithName:@"English"
+                                        withLanguageCode:@"en"
+                                                isChosen:@YES
+                                intoManagedObjectContext:context]];
+    [addedLanguages addObject:[Language languageWithName:@"हिन्दी"
+                                        withLanguageCode:@"hi"
+                                                isChosen:nil
+                                intoManagedObjectContext:context]];
+    NSError *error = nil;
+    // Save the object to persistent store
+    if (![context save:&error]) {
+        NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
+    }
+    
+    for (Language *language in addedLanguages) {
+        if ([language.isChosen boolValue]) {
+            NSLog(@"As per user settings, chosen language = %@", language.languageName);
+            LocalizationSetLanguage(language.languageCode);
+        }
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

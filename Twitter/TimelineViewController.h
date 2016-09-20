@@ -14,6 +14,7 @@
 @protocol TimelineDelegate <NSObject>
 
 - (void)postTweet: (NSString *)withText;
+- (void)signOut;
 
 @end
 

@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -79,6 +80,7 @@
                     <navigationItem key="navigationItem" id="lKJ-1z-OLN"/>
                     <connections>
                         <outlet property="loadingSpinner" destination="tSw-37-CFI" id="qn9-Xo-gNf"/>
+                        <outlet property="loginButton" destination="76i-Xu-LmL" id="taw-ht-vu5"/>
                         <outlet property="twitterLogoView" destination="XKz-QJ-gI0" id="jxb-I3-YaX"/>
                         <segue destination="qgp-Nt-ARA" kind="presentation" identifier="loginSeque" id="mNX-s5-ZLa"/>
                     </connections>
@@ -130,6 +132,46 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O2j-jv-KGL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="837" y="410"/>
+        </scene>
+        <!--Language Selection Table View Controller-->
+        <scene sceneID="Fsf-5b-oG0">
+            <objects>
+                <tableViewController id="ET6-Bq-N35" customClass="LanguageSelectionTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="cQM-rK-pzm">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="languageCell" textLabel="zFa-fj-1wX" style="IBUITableViewCellStyleDefault" id="wZk-01-cNO">
+                                <rect key="frame" x="0.0" y="92" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wZk-01-cNO" id="luH-y6-GSv">
+                                    <frame key="frameInset" width="375" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zFa-fj-1wX">
+                                            <frame key="frameInset" minX="15" width="345" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ET6-Bq-N35" id="kBe-OX-BtK"/>
+                            <outlet property="delegate" destination="ET6-Bq-N35" id="mpi-Ub-LOG"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <outlet property="languagesTableView" destination="cQM-rK-pzm" id="X5y-J0-7wz"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jIE-Ip-SIk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="26" y="9"/>
         </scene>
         <!--Following-->
         <scene sceneID="90n-Gz-0NA">
@@ -203,16 +245,23 @@
             <objects>
                 <tabBarController id="xBC-ti-CrE" customClass="TabBarController" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="or4-Gj-mU8">
-                        <barButtonItem key="leftBarButtonItem" title="Log out" id="1uA-Wp-Rri">
+                        <barButtonItem key="leftBarButtonItem" image="logout" id="1uA-Wp-Rri">
                             <connections>
                                 <action selector="signOutFromTwitter:" destination="xBC-ti-CrE" id="Ysg-eu-7F0"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Tweet" id="pbd-Di-QBJ">
-                            <connections>
-                                <action selector="tweetButtonPressed:" destination="xBC-ti-CrE" id="wms-jp-J6X"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem image="ComposeTweet" id="pbd-Di-QBJ">
+                                <connections>
+                                    <action selector="tweetButtonPressed:" destination="xBC-ti-CrE" id="wms-jp-J6X"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="language" id="6jq-KG-Dqx">
+                                <connections>
+                                    <segue destination="ET6-Bq-N35" kind="show" identifier="languageSeque" id="rBJ-Nh-iow"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="xpF-sl-cwc">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
@@ -221,6 +270,7 @@
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
+                        <outlet property="tabBar" destination="xpF-sl-cwc" id="Suu-0J-Evs"/>
                         <segue destination="CCZ-zI-56f" kind="relationship" relationship="viewControllers" id="hbC-C8-cwQ"/>
                         <segue destination="gyv-qs-UtV" kind="relationship" relationship="viewControllers" id="Q19-zw-qE2"/>
                         <segue destination="3U0-L6-4BQ" kind="relationship" relationship="viewControllers" id="bNH-X2-rOe"/>
@@ -234,11 +284,14 @@
         </scene>
     </scenes>
     <resources>
+        <image name="ComposeTweet" width="25" height="25"/>
         <image name="Followers_tab" width="25" height="25"/>
         <image name="Following_tab" width="25" height="25"/>
         <image name="Home_tab" width="25" height="25"/>
         <image name="Twitter_logo_white" width="44" height="35"/>
         <image name="UserTimeline_tab" width="25" height="25"/>
+        <image name="language" width="25" height="25"/>
+        <image name="logout" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="81F-gl-GzV"/>

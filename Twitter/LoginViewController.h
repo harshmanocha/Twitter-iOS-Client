@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "TwitterKit/TwitterKit.h"
+#import "LocalizeHelper.h"
 
-@interface LoginViewController : UIViewController
+@interface LoginViewController : UIViewController<RefreshLocalizedTextOnViewProtocol>
 
 @property (weak, nonatomic) IBOutlet UIImageView *twitterLogoView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingSpinner;
+@property (weak, nonatomic) IBOutlet UIButton *loginButton;
 
 @property (nonatomic) BOOL wasLoginSuccessful;
 

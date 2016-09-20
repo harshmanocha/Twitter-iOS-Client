@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "TimelineViewController.h"
+#import "LocalizeHelper.h"
 
-@interface UserTimelineViewController : TimelineViewController
+@interface UserTimelineViewController : TimelineViewController <RefreshLocalizedTextOnViewProtocol>
 
 @property (strong, nonatomic) NSString *userId;
 @property (strong, nonatomic) NSString *nameOfUser;

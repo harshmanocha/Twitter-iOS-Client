@@ -17,14 +17,31 @@
         self.isUserSameAsTheLoggedInUser = YES;
     }
     
+    if (!self.userId) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UIViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"loginController"];
+        [loginViewController setModalPresentationStyle:UIModalPresentationFullScreen];
+        
+        [self presentViewController:loginViewController animated:YES completion:nil];
+//        [self.delegate signOut];
+    }
+    
     NSMutableDictionary *paramsForUserTimeline = [[NSMutableDictionary alloc] initWithDictionary:@{@"user_id":self.userId}];
     self.client = [[TWTRAPIClient alloc] init];
+    
+    NSLog(@"User ID at User Timeline: %@", self.userId);
+    
+    if (self.client)
+        NSLog(@"API Client created user timeline");
+    else
+        NSLog(@"Error creating API client");
     
     [self setTweetTableView:_userTimelineTableView];
     [self setTwitterRequestApiEndPoint:@"https://api.twitter.com/1.1/statuses/user_timeline.json"];
     [self setRequestParams:paramsForUserTimeline];
     
     NSLog(@"About to show user timeline of user with ID: %@", self.userId);
+    [LocalizeHelper addViewForRefreshingLocalizedText:self];
     
     [super viewDidLoad];
 }
@@ -39,9 +56,13 @@
     
     NSLog(@"Switched to user timeline tab");
     if (_isUserSameAsTheLoggedInUser)
-        [self.tabBarController setTitle:NSLocalizedString(@"User Timeline", nil)];
+        [self refreshLocalizedText];
     else
         self.navigationItem.title = self.nameOfUser;
+}
+
+- (void)refreshLocalizedText {
+    [self.tabBarController setTitle:LocalizedString(@"User Timeline")];
 }
 
 - (void)loadDataFromPersistentStorage {

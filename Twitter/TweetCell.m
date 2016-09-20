@@ -34,7 +34,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
+    [LocalizeHelper addViewForRefreshingLocalizedText:self];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -57,14 +57,17 @@
 
 - (void)setTweet:(Tweet *)tweet {
     _tweet = tweet;
-    
-    User *user = tweet.user;
+    [self refreshLocalizedText];
+}
+
+- (void)refreshLocalizedText {
+    User *user = self.tweet.user;
     Tweet *tweetToDisplay;
     
-    if (tweet.retweetedTweet) {
-        tweetToDisplay = tweet.retweetedTweet;
+    if (self.tweet.retweetedTweet) {
+        tweetToDisplay = self.tweet.retweetedTweet;
         user = tweetToDisplay.user;
-        self.retweetedByLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%@ retweeted", nil), tweet.user.name];
+        self.retweetedByLabel.text = [NSString stringWithFormat:LocalizedString(@"%@ retweeted"), self.tweet.user.name];
         [self.retweetView setHidden:NO];
         [self.retweetedByLabel setHidden:NO];
         // update constraints dynamically
@@ -73,7 +76,7 @@
         self.topScreenNameConstraint.constant = 33;
         self.topTimestampConstraint.constant = 32;
     } else {
-        tweetToDisplay = tweet;
+        tweetToDisplay = self.tweet;
         [self.retweetView setHidden:YES];
         [self.retweetedByLabel setHidden:YES];
         // update constraints dynamically
@@ -88,21 +91,7 @@
     [layer setMasksToBounds:YES];
     [layer setCornerRadius:3.0];
     
-    /*
-    SAMCache *cache = [SAMCache sharedCache];
-    
-    if ([cache imageExistsForKey:user.profileImageUrl]) {
-        UIImage *profileImage = [cache imageForKey:user.profileImageUrl];
-        [self.profileImageView setImage:profileImage];
-    }
-    else {
-    [NSThread detachNewThreadSelector:@selector(downloadAndLoadProfileImageOfUser:)
-                             toTarget:self
-                           withObject:user.profileImageUrl];
-    }
-     */
-    
-//    NSLog(@"URL: %@", tweetToDisplay.user.profileImageUrl);
+    //    NSLog(@"URL: %@", tweetToDisplay.user.profileImageUrl);
     NSURL *url = [NSURL URLWithString:tweetToDisplay.user.profileImageUrl];
     [self.profileImageView hnk_setImageFromURL:url];
     
@@ -113,67 +102,64 @@
     // show relative time since now if 24 hours or less has elapsed
     NSTimeInterval secondsSinceTweet = -[self.tweet.createdAt timeIntervalSinceNow];
     
-//    NSLog(@"For the tweet by %@ - Seconds since tweet: %f and created at: %@", _tweet.user.name, secondsSinceTweet, _tweet.createdAt);
+    //    NSLog(@"For the tweet by %@ - Seconds since tweet: %f and created at: %@", _tweet.user.name, secondsSinceTweet, _tweet.createdAt);
     if (secondsSinceTweet >= 86400) {
-        // show month, day, and year
-        self.timestampLabel.text = [NSDateFormatter localizedStringFromDate:tweetToDisplay.createdAt
-                                                                  dateStyle:NSDateFormatterShortStyle
-                                                                  timeStyle:NSDateFormatterNoStyle];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.locale = [NSLocale localeWithLocaleIdentifier:LocalizedString(@"language code")];
+        dateFormatter.dateStyle = NSDateFormatterShortStyle;
+        dateFormatter.timeStyle = NSDateFormatterNoStyle;
+        self.timestampLabel.text = [dateFormatter stringFromDate:tweetToDisplay.createdAt];
+        //        [NSDateFormatter localizedStringFromDate:tweetToDisplay.createdAt
+        //                                                                  dateStyle:NSDateFormatterShortStyle
+        //                                                                  timeStyle:NSDateFormatterNoStyle];
     } else if (secondsSinceTweet >= 3600) {
         // show hours
-        self.timestampLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%@h", nil), [TweetCell localizedNumberString:@(secondsSinceTweet/3600)]];
+        self.timestampLabel.text = [NSString stringWithFormat:LocalizedString(@"%@h"), [LocalizeHelper localizedNumberString:@(secondsSinceTweet/3600)]];
     } else if (secondsSinceTweet >= 60){
         // show minutes
-        self.timestampLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%@m", nil), [TweetCell localizedNumberString:@(secondsSinceTweet/60)]];
+        self.timestampLabel.text = [NSString stringWithFormat:LocalizedString(@"%@m"), [LocalizeHelper localizedNumberString:@(secondsSinceTweet/60)]];
     } else {
         // show seconds
-        self.timestampLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%@s", nil), [TweetCell localizedNumberString:@(secondsSinceTweet)]];
+        self.timestampLabel.text = [NSString stringWithFormat:LocalizedString(@"%@s"), [LocalizeHelper localizedNumberString:@(secondsSinceTweet)]];
     }
     
-    if (!tweet.idStr) {
+    if (!self.tweet.idStr) {
         self.replyButton.enabled = self.retweetButton.enabled = self.favoriteButton.enabled = NO;
     }
     else {
         self.replyButton.enabled = self.retweetButton.enabled = self.favoriteButton.enabled = YES;
     }
-
-    if ([tweet.retweetCount longValue] > 0) {
-        self.retweetCountLabel.text = [TweetCell localizedNumberString:tweetToDisplay.retweetCount];
+    
+    if ([self.tweet.retweetCount longValue] > 0) {
+        self.retweetCountLabel.text = [LocalizeHelper localizedNumberString:tweetToDisplay.retweetCount];
     }
     else {
         self.retweetCountLabel.text = @"";
     }
-
+    
     if ([tweetToDisplay.favoriteCount longValue] > 0) {
-        self.favoriteCountLabel.text = [TweetCell localizedNumberString:tweetToDisplay.favoriteCount];
+        self.favoriteCountLabel.text = [LocalizeHelper localizedNumberString:tweetToDisplay.favoriteCount];
     }
     else {
         self.favoriteCountLabel.text = @"";
     }
     
-    if ([tweet.retweeted boolValue]) {
+    if ([self.tweet.retweeted boolValue]) {
         self.retweetCountLabel.textColor = [UIColor greenColor];
     }
     else {
         self.retweetCountLabel.textColor = [UIColor grayColor];
     }
-        
-    if ([tweet.favorited boolValue] > 0) {
+    
+    if ([self.tweet.favorited boolValue] > 0) {
         self.favoriteCountLabel.textColor = [UIColor orangeColor];
     }
     else {
         self.favoriteCountLabel.textColor = [UIColor grayColor];
     }
     
-    [self.retweetButton setSelected:[tweet.retweeted boolValue]];
-    [self.favoriteButton setSelected:[tweet.favorited boolValue]];
-}
-
-+ (NSString *)localizedNumberString:(NSNumber *)number {
-    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
-    [numberFormatter setNumberStyle:NSNumberFormatterNoStyle];
-    NSString *numberString = [numberFormatter stringFromNumber:number];
-    return numberString;
+    [self.retweetButton setSelected:[self.tweet.retweeted boolValue]];
+    [self.favoriteButton setSelected:[self.tweet.favorited boolValue]];
 }
 
 - (void)highlightButton:(UIButton *)button highlight:(BOOL)highlight {

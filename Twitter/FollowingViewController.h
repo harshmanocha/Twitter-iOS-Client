@@ -7,8 +7,9 @@
 //
 
 #import "UsersTableViewController.h"
+#import "LocalizeHelper.h"
 
-@interface FollowingViewController : UsersTableViewController
+@interface FollowingViewController : UsersTableViewController <RefreshLocalizedTextOnViewProtocol>
 
 @property (strong, nonatomic) IBOutlet UITableView *followingTableView;
 @property (nonatomic, strong) User * currentUser;

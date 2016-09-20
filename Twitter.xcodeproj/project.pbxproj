@@ -19,6 +19,10 @@
 		0A6758FE1D82A9C2009097F9 /* Tweet+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6758FB1D82A9C2009097F9 /* Tweet+CoreDataProperties.m */; };
 		0A6758FF1D82A9C2009097F9 /* Tweet.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6758FD1D82A9C2009097F9 /* Tweet.m */; };
 		0A6759051D82AA0B009097F9 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6759031D82AA0B009097F9 /* User.m */; };
+		0A7742641D8FBD2900642C2D /* LocalizeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7742631D8FBD2900642C2D /* LocalizeHelper.m */; };
+		0A7742671D90063F00642C2D /* LanguageSelectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7742661D90063F00642C2D /* LanguageSelectionTableViewController.m */; };
+		0A77426C1D901D3A00642C2D /* Language+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7742691D901D3A00642C2D /* Language+CoreDataClass.m */; };
+		0A77426D1D901D3A00642C2D /* Language+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A77426B1D901D3A00642C2D /* Language+CoreDataProperties.m */; };
 		0A7FA2E81D8BDA4C00114B71 /* User+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7FA2E71D8BDA4C00114B71 /* User+CoreDataProperties.m */; };
 		0A860F741D75A63900454602 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A860F731D75A63900454602 /* main.m */; };
 		0A860F771D75A63900454602 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A860F761D75A63900454602 /* AppDelegate.m */; };
@@ -61,6 +65,14 @@
 		0A6759021D82AA0B009097F9 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		0A6759031D82AA0B009097F9 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		0A678E3C1D8963350049077C /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/Main.strings; sourceTree = "<group>"; };
+		0A7742621D8FBD2900642C2D /* LocalizeHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalizeHelper.h; sourceTree = "<group>"; };
+		0A7742631D8FBD2900642C2D /* LocalizeHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalizeHelper.m; sourceTree = "<group>"; };
+		0A7742651D90063F00642C2D /* LanguageSelectionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LanguageSelectionTableViewController.h; sourceTree = "<group>"; };
+		0A7742661D90063F00642C2D /* LanguageSelectionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LanguageSelectionTableViewController.m; sourceTree = "<group>"; };
+		0A7742681D901D3A00642C2D /* Language+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Language+CoreDataClass.h"; sourceTree = "<group>"; };
+		0A7742691D901D3A00642C2D /* Language+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Language+CoreDataClass.m"; sourceTree = "<group>"; };
+		0A77426A1D901D3A00642C2D /* Language+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Language+CoreDataProperties.h"; sourceTree = "<group>"; };
+		0A77426B1D901D3A00642C2D /* Language+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Language+CoreDataProperties.m"; sourceTree = "<group>"; };
 		0A7FA2E61D8BDA4C00114B71 /* User+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "User+CoreDataProperties.h"; sourceTree = "<group>"; };
 		0A7FA2E71D8BDA4C00114B71 /* User+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "User+CoreDataProperties.m"; sourceTree = "<group>"; };
 		0A860F6F1D75A63900454602 /* Twitter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Twitter.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,6 +123,10 @@
 				0A6758FB1D82A9C2009097F9 /* Tweet+CoreDataProperties.m */,
 				0A6758FC1D82A9C2009097F9 /* Tweet.h */,
 				0A6758FD1D82A9C2009097F9 /* Tweet.m */,
+				0A7742681D901D3A00642C2D /* Language+CoreDataClass.h */,
+				0A7742691D901D3A00642C2D /* Language+CoreDataClass.m */,
+				0A77426A1D901D3A00642C2D /* Language+CoreDataProperties.h */,
+				0A77426B1D901D3A00642C2D /* Language+CoreDataProperties.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -154,6 +170,8 @@
 				0A5F15081D89739D00B7E8A8 /* InfoPlist.strings */,
 				0A860F751D75A63900454602 /* AppDelegate.h */,
 				0A860F761D75A63900454602 /* AppDelegate.m */,
+				0A7742621D8FBD2900642C2D /* LocalizeHelper.h */,
+				0A7742631D8FBD2900642C2D /* LocalizeHelper.m */,
 				0A860F731D75A63900454602 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -162,6 +180,8 @@
 		0A860F961D76EE9900454602 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				0A7742651D90063F00642C2D /* LanguageSelectionTableViewController.h */,
+				0A7742661D90063F00642C2D /* LanguageSelectionTableViewController.m */,
 				0A860F8E1D75ACED00454602 /* LoginViewController.h */,
 				0A860F8F1D75ACED00454602 /* LoginViewController.m */,
 				0ACA51111D7EB89C007ABBE4 /* TimelineViewController.h */,
@@ -358,6 +378,8 @@
 			files = (
 				0A860F771D75A63900454602 /* AppDelegate.m in Sources */,
 				0ACA51131D7EB89C007ABBE4 /* TimelineViewController.m in Sources */,
+				0A7742641D8FBD2900642C2D /* LocalizeHelper.m in Sources */,
+				0A77426C1D901D3A00642C2D /* Language+CoreDataClass.m in Sources */,
 				0A860F741D75A63900454602 /* main.m in Sources */,
 				0A6758E51D803CA0009097F9 /* UsersTableViewController.m in Sources */,
 				0A6758FE1D82A9C2009097F9 /* Tweet+CoreDataProperties.m in Sources */,
@@ -371,6 +393,8 @@
 				0A6758E81D803E21009097F9 /* FollowersViewController.m in Sources */,
 				0A7FA2E81D8BDA4C00114B71 /* User+CoreDataProperties.m in Sources */,
 				0A860F801D75A63900454602 /* Twitter.xcdatamodeld in Sources */,
+				0A77426D1D901D3A00642C2D /* Language+CoreDataProperties.m in Sources */,
+				0A7742671D90063F00642C2D /* LanguageSelectionTableViewController.m in Sources */,
 				0A6758EF1D8041E4009097F9 /* UserCell.m in Sources */,
 				0A860F901D75ACED00454602 /* LoginViewController.m in Sources */,
 			);

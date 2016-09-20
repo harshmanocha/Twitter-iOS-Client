@@ -16,12 +16,18 @@
 
 - (void)viewDidLoad {
     NSString *userID = [Twitter sharedInstance].sessionStore.session.userID;
+    NSLog(@"User ID at Home Timeline: %@", userID);
     self.client = [[TWTRAPIClient alloc] initWithUserID:userID];
+    
+    if (self.client)
+        NSLog(@"API Client created home timeline");
+    else
+        NSLog(@"Error creating API client");
     
     [self setTweetTableView:_homeTimelineTableView];
     [self setTwitterRequestApiEndPoint:@"https://api.twitter.com/1.1/statuses/home_timeline.json"];
     [self setRequestParams:[[NSMutableDictionary alloc] initWithDictionary:@{}]];
-    
+    [LocalizeHelper addViewForRefreshingLocalizedText:self];
     [super viewDidLoad];
 }
 
@@ -33,7 +39,11 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     NSLog(@"Switched to home feed tab");
-    [self.tabBarController setTitle:NSLocalizedString(@"Home Feed", nil)];
+    [self refreshLocalizedText];
+}
+
+- (void)refreshLocalizedText {
+    [self.tabBarController setTitle:LocalizedString(@"Home Feed")];
 }
 
 /*

@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "TimelineViewController.h"
+#import "LocalizeHelper.h"
 
-@interface TabBarController : UITabBarController <TimelineDelegate>
+@interface TabBarController : UITabBarController <TimelineDelegate, RefreshLocalizedTextOnViewProtocol>
+
+@property (weak, nonatomic) IBOutlet UITabBar *tabBar;
 
 - (void)postTweet: (NSString *)withText;
 

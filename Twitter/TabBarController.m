@@ -10,8 +10,11 @@
 #import "TwitterKit/TwitterKit.h"
 #import "HomeTimelineViewController.h"
 #import "UserTimelineViewController.h"
+#import "LocalizeHelper.h"
 
 @implementation TabBarController
+
+@synthesize tabBar;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -21,6 +24,16 @@
     
     UserTimelineViewController *userTimelineViewController = (UserTimelineViewController *)[[self viewControllers] objectAtIndex:1];
     [userTimelineViewController setDelegate:self];
+    [self refreshLocalizedText];
+    
+    [LocalizeHelper addViewForRefreshingLocalizedText:self];
+}
+
+- (void)refreshLocalizedText {
+    [[self.tabBar.items objectAtIndex:0] setTitle:LocalizedString(@"Home Feed")];
+    [[self.tabBar.items objectAtIndex:1] setTitle:LocalizedString(@"User Timeline")];
+    [[self.tabBar.items objectAtIndex:2] setTitle:LocalizedString(@"Following")];
+    [[self.tabBar.items objectAtIndex:3] setTitle:LocalizedString(@"Followers")];
 }
 
 - (void) postTweet: (nullable NSString *)withText {
@@ -49,11 +62,15 @@
     [self postTweet:NULL];
 }
 
-- (IBAction)signOutFromTwitter:(id)sender {
+- (void)signOut {
     NSString *userID = [Twitter sharedInstance].sessionStore.session.userID;
     NSLog(@"About to log out User ID: %@", userID);
     [[Twitter sharedInstance].sessionStore logOutUserID:userID];
     [self performSegueWithIdentifier:@"signOutSegue" sender:self];
+}
+
+- (IBAction)signOutFromTwitter:(id)sender {
+    [self signOut];
 }
 
 @end

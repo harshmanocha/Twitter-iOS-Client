@@ -9,6 +9,7 @@
 #import "TimelineViewController.h"
 #import "Tweet.h"
 #import "User.h"
+#import "LocalizeHelper.h"
 
 @interface TimelineViewController ()
 
@@ -51,6 +52,8 @@
     [self loadDataFromPersistentStorage];
     
     [self getRecentTweets];
+    
+//    [TimelineViewController addViewForRedrawing:self.tweetTableView];
 }
 
 - (void)loadDataFromPersistentStorage {
@@ -169,7 +172,7 @@
         NSLog(@"End of list reached...");
         [self getMoreTweets];
     }
-    
+//    [TimelineViewController addViewForRedrawing:tweetCell.backgroundView];
     return tweetCell;
 }
 

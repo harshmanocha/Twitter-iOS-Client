@@ -7,6 +7,7 @@
 //
 
 #import "LoginViewController.h"
+#import "TimelineViewController.h"
 
 @interface LoginViewController ()
 
@@ -18,9 +19,17 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
+    [self refreshLocalizedText];
+    
     self.twitterLogoView.transform = CGAffineTransformMakeScale(1, 1);
     // use twitter brand bg color
     self.view.backgroundColor = [UIColor colorWithRed:46/255.0f green:192/255.0f blue:255/255.0f alpha:1.0f];
+    [LocalizeHelper addViewForRefreshingLocalizedText:self];
+}
+
+- (void)refreshLocalizedText {
+    [self.loginButton setTitle:LocalizedString(@"Login with Twitter")
+                      forState:UIControlStateNormal];
 }
 
 - (void)didReceiveMemoryWarning {

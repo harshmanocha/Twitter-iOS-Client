@@ -10,7 +10,7 @@
 
 "User Timeline" = "उपयोगकर्ता टाइमलाइन";
 
-"Home Feed" = "होम टाइमलाइन";
+"Home Feed" = "होम";
 
 "Followers" = "फ़ॉलोअर";
 
@@ -21,3 +21,10 @@
 "%@m" = "%@ मिन.";
 
 "%@s" = "%@ सेकं.";
+
+"Choose Language" = "भाषा चुनें";
+
+"Login with Twitter" = "लॉगिन ट्विटर";
+
+"language code" = "hi";
+

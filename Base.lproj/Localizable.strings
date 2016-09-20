@@ -10,7 +10,7 @@
 
 "User Timeline" = "User Timeline";
 
-"Home Feed" = "Home Feed";
+"Home Feed" = "Home";
 
 "Followers" = "Followers";
 
@@ -21,3 +21,9 @@
 "%@m" = "%@m";
 
 "%@s" = "%@s";
+
+"Choose Language" = "Choose Language";
+
+"Login with Twitter" = "Login with Twitter";
+
+"language code" = "en";

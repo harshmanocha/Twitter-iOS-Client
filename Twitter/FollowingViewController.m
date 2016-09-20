@@ -23,9 +23,8 @@
     [self setUsersTableView:_followingTableView];
     [self setTwitterRequestApiEndPoint:@"https://api.twitter.com/1.1/friends/list.json"];
     [self setRequestParams:paramsForFollowingList];
-    
     [self loadDataFromPersistentStorageForUserId:userID];
-    
+    [LocalizeHelper addViewForRefreshingLocalizedText:self];
     [super viewDidLoad];
 }
 
@@ -38,7 +37,11 @@
     [super viewDidAppear:animated];
     
     NSLog(@"Switched to following tab");
-    [self.tabBarController setTitle:NSLocalizedString(@"Following", nil)];
+    [self refreshLocalizedText];
+}
+
+- (void)refreshLocalizedText {
+    [self.tabBarController setTitle:LocalizedString(@"Following")];
 }
 
 - (void)loadDataFromPersistentStorageForUserId:(NSString *)userId {

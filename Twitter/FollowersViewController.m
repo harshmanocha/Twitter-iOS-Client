@@ -7,6 +7,7 @@
 //
 
 #import "FollowersViewController.h"
+#import "LocalizeHelper.h"
 
 @interface FollowersViewController ()
 
@@ -25,7 +26,7 @@
     [self setRequestParams:paramsForFollowersList];
     
     [self loadDataFromPersistentStorageForUserId:userID];
-    
+    [LocalizeHelper addViewForRefreshingLocalizedText:self];
     [super viewDidLoad];
 }
 
@@ -38,7 +39,11 @@
     [super viewDidAppear:animated];
     
     NSLog(@"Switched to followers tab");
-    [self.tabBarController setTitle:NSLocalizedString(@"Followers", nil)];
+    [self refreshLocalizedText];
+}
+
+- (void)refreshLocalizedText {
+    [self.tabBarController setTitle:LocalizedString(@"Followers")];
 }
 
 - (void)loadDataFromPersistentStorageForUserId:(NSString *)userId {
