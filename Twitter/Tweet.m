@@ -7,220 +7,155 @@
 //
 
 #import "Tweet.h"
+#import "TwitterAPI.h"
+#import "NSNumber+NegateBoolean.h"
+#import "NSNumber+AddToLong.h"
 #import "User.h"
-
-NSString * const tweetFavoriteApiEndPoint = @"https://api.twitter.com/1.1/favorites/create.json";
-NSString * const tweetUnfavoriteApiEndPoint = @"https://api.twitter.com/1.1/favorites/destroy.json";
-NSString * const retweetApiSkeleton = @"https://api.twitter.com/1.1/statuses/retweet/%@.json";
-NSString * const unretweetApiSkeleton = @"https://api.twitter.com/1.1/statuses/unretweet/%@.json";
+#import "CoreDataHelper.h"
 
 @implementation Tweet
 
-+ (TWTRAPIClient *)apiClient {
-    static TWTRAPIClient *client = nil;
-    if (client == nil) {
-        NSString *userID = [Twitter sharedInstance].sessionStore.session.userID;
-        client = [[TWTRAPIClient alloc] initWithUserID:userID];
-    }
-    return client;
-}
+NSString * const TweetEntityName = @"Tweet";
+NSString * const DateFormatFromTwitterAPI = @"EEE MMM d HH:mm:ss Z y";
+NSString * const LanguageLocaleForDateComingFromTwitterAPI = @"en_US_POSIX";
 
-// Insert code here to add functionality to your managed object subclass
 + (Tweet *)tweetWithTwitterInfo:(NSDictionary *)tweetDictionary
          generatedByApiEndPoint:(NSString *)apiEndPoint
          inManagedObjectContext:(NSManagedObjectContext *)context {
     Tweet *tweet = nil;
-    
-    NSString *tweetId = tweetDictionary[@"id_str"];
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Tweet"];
-    request.predicate = [NSPredicate predicateWithFormat:@"(idStr = %@) AND (generatedByApiEndPoint = %@)", tweetId, apiEndPoint];
-    
+    NSString *tweetId = tweetDictionary[TwitterKeyForID];
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:TweetEntityName];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"(tweetID = %@) AND (generatedByApiEndPoint = %@)", tweetId, apiEndPoint];
     NSError *error;
-    NSArray *matches = [context executeFetchRequest:request error:&error];
+    NSArray *matches = [context executeFetchRequest:fetchRequest error:&error];
     
     if (!matches || error || ([matches count] > 1)) {
         NSLog(@"Error in retrieving tweet from Core Data with tweetID: %@", tweetId);
-    }
-    else if ([matches count]) {
+    } else if ([matches count]) {
         tweet = [matches firstObject];
-        tweet.retweetCount = [[NSNumber alloc] initWithLong:[tweetDictionary[@"retweet_count"] integerValue]];
-        tweet.favoriteCount = [[NSNumber alloc] initWithLong:[tweetDictionary[@"favorite_count"] integerValue]];
-        tweet.retweeted = [[NSNumber alloc] initWithBool:[tweetDictionary[@"retweeted"] boolValue]];
-        tweet.favorited = [NSNumber numberWithBool:[tweetDictionary[@"favorited"] boolValue]];
-        tweet.user = [User userWithDictionary:tweetDictionary[@"user"] inManagedObjectContext:context];
-        if (tweet.retweetedTweet && tweetDictionary[@"retweeted_status"])
-            tweet.retweetedTweet = [Tweet tweetWithTwitterInfo:tweetDictionary[@"retweeted_status"]
-                                    generatedByApiEndPoint:apiEndPoint
-                                    inManagedObjectContext:context];
-    }
-    else {
-        tweet = [NSEntityDescription insertNewObjectForEntityForName:@"Tweet"
-                                              inManagedObjectContext:context];
-        tweet.idStr = tweetId;
-        
-        tweet.user = [User userWithDictionary:tweetDictionary[@"user"]
-                       inManagedObjectContext:context];
-        
-        [tweet.user addTweetsObject:tweet];
-        
-        tweet.text = [tweetDictionary[@"text"] stringByReplacingOccurrencesOfString:@"&amp;"
-                                                                         withString:@"&"];
-        
-        NSString *createdAtString = tweetDictionary[@"created_at"];
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
-        formatter.dateFormat = @"EEE MMM d HH:mm:ss Z y";
-        
-        tweet.createdAt = [formatter dateFromString:createdAtString];
-//        NSLog(@"Tweet by %@ createdAtString %@ created at %@", tweet.user.name, createdAtString, tweet.createdAt);
-        
-        tweet.retweetCount = [[NSNumber alloc] initWithLong:[tweetDictionary[@"retweet_count"] integerValue]];
-        tweet.favoriteCount = [[NSNumber alloc] initWithLong:[tweetDictionary[@"favorite_count"] integerValue]];
-        
-        tweet.retweeted = [[NSNumber alloc] initWithBool:[tweetDictionary[@"retweeted"] boolValue]];
-        tweet.favorited = [NSNumber numberWithBool:[tweetDictionary[@"favorited"] boolValue]];
-        
-        if (tweetDictionary[@"retweeted_status"]) {
-            tweet.retweetedTweet = [Tweet tweetWithTwitterInfo:tweetDictionary[@"retweeted_status"]
+        [Tweet updateTweet:tweet withInfoFromDictionary:tweetDictionary];
+        if (tweet.retweetedTweet && tweetDictionary[TwitterKeyForRetweetedStatus]) {
+            tweet.retweetedTweet = [Tweet tweetWithTwitterInfo:tweetDictionary[TwitterKeyForRetweetedStatus]
                                         generatedByApiEndPoint:apiEndPoint
                                         inManagedObjectContext:context];
-            
         }
-        
+    } else {
+        tweet = [NSEntityDescription insertNewObjectForEntityForName:TweetEntityName
+                                              inManagedObjectContext:context];
+        tweet.tweetID = tweetId;
+        tweet.user = [User userWithDictionary:tweetDictionary[TwitterKeyForUser]
+                       inManagedObjectContext:context];
+        [tweet.user addTweetsObject:tweet];
+        tweet.text = [tweetDictionary[TwitterKeyForText] stringByReplacingOccurrencesOfString:@"&amp;"
+                                                                                   withString:@"&"];
+        [Tweet updateTweet:tweet withInfoFromDictionary:tweetDictionary];
+        if (tweetDictionary[TwitterKeyForRetweetedStatus]) {
+            tweet.retweetedTweet = [Tweet tweetWithTwitterInfo:tweetDictionary[TwitterKeyForRetweetedStatus]
+                                        generatedByApiEndPoint:apiEndPoint
+                                        inManagedObjectContext:context];
+        }
         tweet.generatedByApiEndPoint = apiEndPoint;
-        
-        NSError *error = nil;
-        // Save the object to persistent store
-        if (![context save:&error]) {
-            NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
-        }
+        NSString *createdAtString = tweetDictionary[TwitterKeyForDateCreatedAt];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:LanguageLocaleForDateComingFromTwitterAPI]];
+        formatter.dateFormat = DateFormatFromTwitterAPI;
+        tweet.createdAt = [formatter dateFromString:createdAtString];
+        [CoreDataHelper saveManagedObjectContext];
     }
-    
     return tweet;
+}
+
++ (void)updateTweet:(Tweet *)tweet withInfoFromDictionary:(NSDictionary *)tweetDictionary {
+    tweet.retweetCount = [NSNumber numberWithLong:[tweetDictionary[TwitterKeyForRetweetCount] longValue]];
+    tweet.favoriteCount = [NSNumber numberWithLong:[tweetDictionary[TwitterKeyForFavoriteCount] longValue]];
+    tweet.isRetweeted = [NSNumber numberWithBool:[tweetDictionary[TwitterKeyForIsRetweeted] boolValue]];
+    tweet.isFavorited = [NSNumber numberWithBool:[tweetDictionary[TwitterKeyForIsFavorited] boolValue]];
 }
 
 + (NSArray *)loadTweetsFromArray:(NSArray *)tweetsDictArray
           generatedByApiEndPoint:(NSString *)apiEndPoint
         intoManagedObjectContext:(NSManagedObjectContext *)context {
-    
     NSMutableArray *tweets = [NSMutableArray array];
     for (NSDictionary *tweetDictionary in tweetsDictArray) {
         Tweet *tweet = [Tweet tweetWithTwitterInfo:tweetDictionary
-                        generatedByApiEndPoint:apiEndPoint
-                                inManagedObjectContext:context];
+                            generatedByApiEndPoint:apiEndPoint
+                            inManagedObjectContext:context];
         [tweets addObject:tweet];
     }
-    
     return tweets;
 }
 
 - (BOOL)retweet {
-    self.retweeted = [[NSNumber alloc] initWithBool:![self.retweeted boolValue]];
-
-    if ([self.retweeted boolValue]) {
-        self.retweetCount = [[NSNumber alloc] initWithLong:([self.retweetCount longValue] + 1)];
-//        self.retweetCount++;
-        
-        // retweet
-        NSString *retweetApiEndPoint = [NSString stringWithFormat:retweetApiSkeleton, self.idStr];
+    self.isRetweeted = [self.isRetweeted negateBool];
+    if ([self.isRetweeted boolValue]) {
+        self.retweetCount = [self.retweetCount addToLong:1];
+        NSString *retweetApiEndPoint = [NSString stringWithFormat:retweetApiSkeleton, self.tweetID];
         NSError *clientError;
-        NSURLRequest *request = [Tweet.apiClient URLRequestWithMethod:@"POST"
-                                                              URL:retweetApiEndPoint
-                                                       parameters:@{@"id":self.idStr}
-                                                            error:&clientError];
+        NSURLRequest *request = [[TwitterAPI sharedInstanceOfApiClient] URLRequestWithMethod:@"POST"
+                                                                         URL:retweetApiEndPoint
+                                                                  parameters:@{@"id":self.tweetID}
+                                                                       error:&clientError];
         if (request) {
-            [Tweet.apiClient sendTwitterRequest:request completion:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                if (data) {
-                    NSLog(@"Retweet successful, retweet_id_str: ");
-                }
-                else {
-                    NSLog(@"Error: %@", connectionError);
-                }
+            [[TwitterAPI sharedInstanceOfApiClient] sendTwitterRequest:request completion:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                if (!data) {
+                    self.isRetweeted = [self.isRetweeted negateBool];
+                } else NSLog(@"Retweet successful");
             }];
         }
-        else {
-            NSLog(@"Error: %@", clientError);
-        }
-    }
-    else {
-        self.retweetCount = [[NSNumber alloc] initWithLong:([self.retweetCount longValue] - 1)];
-        // unretweet
-        NSString *unretweetApiEndPoint = [NSString stringWithFormat:unretweetApiSkeleton, self.idStr];
+    } else {
+        self.retweetCount = [self.retweetCount addToLong:-1];
+        NSString *unretweetApiEndPoint = [NSString stringWithFormat:unretweetApiSkeleton, self.tweetID];
         NSError *clientError;
-        NSURLRequest *request = [Tweet.apiClient URLRequestWithMethod:@"POST"
-                                                              URL:unretweetApiEndPoint
-                                                       parameters:@{@"id":self.idStr}
-                                                            error:&clientError];
+        NSURLRequest *request = [[TwitterAPI sharedInstanceOfApiClient] URLRequestWithMethod:@"POST"
+                                                                         URL:unretweetApiEndPoint
+                                                                  parameters:@{@"id":self.tweetID}
+                                                                       error:&clientError];
         if (request) {
-            [Tweet.apiClient sendTwitterRequest:request completion:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                if (data) {
-                    NSLog(@"Unretweet successful");
-                }
-                else {
-                    NSLog(@"Error: %@", connectionError);
-                }
+            [[TwitterAPI sharedInstanceOfApiClient] sendTwitterRequest:request completion:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                if (!data) {
+                    self.isRetweeted = [self.isRetweeted negateBool];
+                } else NSLog(@"Unretweet successful");
             }];
         }
-        else {
-            NSLog(@"Error: %@", clientError);
-        }
     }
-    
-    return [self.retweeted boolValue];
+    [CoreDataHelper saveManagedObjectContext];
+    return [self.isRetweeted boolValue];
 }
 
 - (BOOL)favorite {
-    self.favorited = [[NSNumber alloc] initWithBool:![self.favorited boolValue]];
-    
-    NSDictionary *requestParams = @{@"id":self.idStr};
-    
-    if ([self.favorited boolValue]) {
-        self.favoriteCount = [[NSNumber alloc] initWithLong:([self.favoriteCount longValue] + 1)];
-        
+    self.isFavorited = [self.isFavorited negateBool];
+    NSDictionary *requestParams = @{@"id":self.tweetID};
+    if ([self.isFavorited boolValue]) {
+        self.favoriteCount = [self.favoriteCount addToLong:1];
         NSError *clientError;
-        NSURLRequest *request = [Tweet.apiClient URLRequestWithMethod:@"POST"
-                                                              URL:tweetFavoriteApiEndPoint
-                                                       parameters:requestParams
-                                                            error:&clientError];
+        NSURLRequest *request = [[TwitterAPI sharedInstanceOfApiClient] URLRequestWithMethod:@"POST"
+                                                                         URL:tweetFavoriteApiEndPoint
+                                                                  parameters:requestParams
+                                                                       error:&clientError];
         if (request) {
-            [Tweet.apiClient sendTwitterRequest:request completion:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                if (data) {
-                    NSLog(@"Favorite successful");
-                }
-                else {
-                    NSLog(@"Twitter Error: %@", connectionError);
+            [[TwitterAPI sharedInstanceOfApiClient] sendTwitterRequest:request completion:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                if (!data) {
+                     self.isFavorited = [self.isFavorited negateBool];
                 }
             }];
         }
-        else {
-            NSLog(@"Request Error: %@", clientError);
-        }
-        
     } else {
-        self.favoriteCount = [[NSNumber alloc] initWithLong:([self.favoriteCount longValue] - 1)];
-
-        // unfavorite
+        self.favoriteCount = [self.favoriteCount addToLong:-1];
         NSError *clientError;
-        NSURLRequest *request = [Tweet.apiClient URLRequestWithMethod:@"POST"
-                                                              URL:tweetUnfavoriteApiEndPoint
-                                                       parameters:requestParams
-                                                            error:&clientError];
+        NSURLRequest *request = [[TwitterAPI sharedInstanceOfApiClient] URLRequestWithMethod:@"POST"
+                                                                         URL:tweetUnfavoriteApiEndPoint
+                                                                  parameters:requestParams
+                                                                       error:&clientError];
         if (request) {
-            [Tweet.apiClient sendTwitterRequest:request completion:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                if (data) {
-                    NSLog(@"Unfavorite successful");
-                }
-                else {
-                    NSLog(@"Connection Error: %@", connectionError);
+            [[TwitterAPI sharedInstanceOfApiClient] sendTwitterRequest:request completion:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                if (!data) {
+                     self.isFavorited = [self.isFavorited negateBool];
                 }
             }];
-        }
-        else {
-            NSLog(@"Request Error: %@", clientError);
         }
     }
-    
-    return [self.favorited boolValue];
+    [CoreDataHelper saveManagedObjectContext];
+    return [self.isFavorited boolValue];
 }
 
 @end

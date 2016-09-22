@@ -7,7 +7,7 @@
 //
 
 #import "LanguageSelectionTableViewController.h"
-#import "TimelineViewController.h"
+#import "CoreDataHelper.h"
 
 @interface LanguageSelectionTableViewController ()
 
@@ -38,7 +38,7 @@
 
 - (void)loadDataFromPersistentStorage {
     // Fetch the devices from persistent data store
-    NSManagedObjectContext *managedObjectContext = [TimelineViewController managedObjectContext];
+    NSManagedObjectContext *managedObjectContext = [CoreDataHelper managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Language"];
     NSSortDescriptor * nameSortDescriptor;
     nameSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"languageName"
@@ -112,7 +112,7 @@
         
         NSError *error = nil;
         // Save the object to persistent store
-        NSManagedObjectContext *context = [TimelineViewController managedObjectContext];
+        NSManagedObjectContext *context = [CoreDataHelper managedObjectContext];
         if (![context save:&error]) {
             NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
         }

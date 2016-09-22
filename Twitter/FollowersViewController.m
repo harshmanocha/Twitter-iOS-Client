@@ -50,7 +50,7 @@
     // Fetch the devices from persistent data store
     NSManagedObjectContext *managedObjectContext = [UsersTableViewController managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"User"];
-    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"idStr = %@", userId]];
+    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"userID = %@", userId]];
     
     self.currentUser = [[[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy] firstObject];
     if (self.currentUser) {

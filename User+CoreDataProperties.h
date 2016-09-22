@@ -1,9 +1,9 @@
 //
 //  User+CoreDataProperties.h
-//  
+//  Twitter
 //
-//  Created by harsh.man on 16/09/16.
-//
+//  Created by harsh.man on 21/09/16.
+//  Copyright © 2016 Directi. All rights reserved.
 //
 
 #import "User.h"
@@ -15,23 +15,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSFetchRequest<User *> *)fetchRequest;
 
+@property (nullable, nonatomic, copy) NSString *userID;
 @property (nullable, nonatomic, copy) NSString *name;
-@property (nullable, nonatomic, copy) NSString *profileImageUrl;
-@property (nullable, nonatomic, copy) NSString *screenname;
+@property (nullable, nonatomic, copy) NSString *profileImageURL;
+@property (nullable, nonatomic, copy) NSString *screenName;
 @property (nullable, nonatomic, copy) NSString *tagline;
-@property (nullable, nonatomic, copy) NSString *idStr;
-@property (nullable, nonatomic, retain) NSSet<Tweet *> *tweets;
 @property (nullable, nonatomic, retain) NSSet<User *> *followers;
 @property (nullable, nonatomic, retain) NSSet<User *> *following;
+@property (nullable, nonatomic, retain) NSSet<Tweet *> *tweets;
 
 @end
 
 @interface User (CoreDataGeneratedAccessors)
-
-- (void)addTweetsObject:(Tweet *)value;
-- (void)removeTweetsObject:(Tweet *)value;
-- (void)addTweets:(NSSet<Tweet *> *)values;
-- (void)removeTweets:(NSSet<Tweet *> *)values;
 
 - (void)addFollowersObject:(User *)value;
 - (void)removeFollowersObject:(User *)value;
@@ -42,6 +37,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeFollowingObject:(User *)value;
 - (void)addFollowing:(NSSet<User *> *)values;
 - (void)removeFollowing:(NSSet<User *> *)values;
+
+- (void)addTweetsObject:(Tweet *)value;
+- (void)removeTweetsObject:(Tweet *)value;
+- (void)addTweets:(NSSet<Tweet *> *)values;
+- (void)removeTweets:(NSSet<Tweet *> *)values;
 
 @end
 

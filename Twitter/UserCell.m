@@ -47,11 +47,11 @@
     }
      */
     
-    NSURL *url = [NSURL URLWithString:user.profileImageUrl];
+    NSURL *url = [NSURL URLWithString:user.profileImageURL];
     [self.profileImageView hnk_setImageFromURL:url];
     
     self.nameLabel.text = user.name;
-    self.screenNameLabel.text = [NSString stringWithFormat:@"@%@", user.screenname];
+    self.screenNameLabel.text = [NSString stringWithFormat:@"@%@", user.screenName];
 }
 
 @end

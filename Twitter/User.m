@@ -20,7 +20,7 @@
     
     NSString *screenName = dictionary[@"screen_name"];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"User"];
-    request.predicate = [NSPredicate predicateWithFormat:@"screenname = %@", screenName];
+    request.predicate = [NSPredicate predicateWithFormat:@"screenName = %@", screenName];
     
     NSError *error;
     NSArray *matches = [context executeFetchRequest:request error:&error];
@@ -31,13 +31,13 @@
     else if (![matches count]) {
         user = [NSEntityDescription insertNewObjectForEntityForName:@"User"
                                              inManagedObjectContext:context];
-        user.idStr = dictionary[@"id_str"];
-        user.screenname = screenName;
+        user.userID = dictionary[@"id_str"];
+        user.screenName = screenName;
         user.name = dictionary[@"name"];
         
-        user.profileImageUrl = dictionary[@"profile_image_url"];
-        if ([user.profileImageUrl hasPrefix:@"http://"])
-            user.profileImageUrl = [user.profileImageUrl stringByReplacingOccurrencesOfString:@"http://" withString:@"https://"];
+        user.profileImageURL = dictionary[@"profile_image_url"];
+        if ([user.profileImageURL hasPrefix:@"http://"])
+            user.profileImageURL = [user.profileImageURL stringByReplacingOccurrencesOfString:@"http://" withString:@"https://"];
          
         user.tagline = dictionary[@"description"];
         
@@ -49,9 +49,9 @@
     }
     else {
         user = [matches lastObject];
-        user.profileImageUrl = dictionary[@"profile_image_url"];
-        if ([user.profileImageUrl hasPrefix:@"http://"])
-            user.profileImageUrl = [user.profileImageUrl stringByReplacingOccurrencesOfString:@"http://" withString:@"https://"];
+        user.profileImageURL = dictionary[@"profile_image_url"];
+        if ([user.profileImageURL hasPrefix:@"http://"])
+            user.profileImageURL = [user.profileImageURL stringByReplacingOccurrencesOfString:@"http://" withString:@"https://"];
         user.tagline = dictionary[@"description"];
     }
     

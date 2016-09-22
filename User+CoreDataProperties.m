@@ -1,12 +1,12 @@
 //
 //  User+CoreDataProperties.m
-//  
+//  Twitter
 //
-//  Created by harsh.man on 16/09/16.
-//
+//  Created by harsh.man on 21/09/16.
+//  Copyright © 2016 Directi. All rights reserved.
 //
 
-#import "User.h"
+#import "User+CoreDataProperties.h"
 
 @implementation User (CoreDataProperties)
 
@@ -14,13 +14,13 @@
 	return [[NSFetchRequest alloc] initWithEntityName:@"User"];
 }
 
+@dynamic userID;
 @dynamic name;
-@dynamic profileImageUrl;
-@dynamic screenname;
+@dynamic profileImageURL;
+@dynamic screenName;
 @dynamic tagline;
-@dynamic idStr;
-@dynamic tweets;
 @dynamic followers;
 @dynamic following;
+@dynamic tweets;
 
 @end

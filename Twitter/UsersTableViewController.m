@@ -239,7 +239,7 @@
     if ([[segue identifier] isEqualToString:@"userTimelineSeque"]) {
 //        NSIndexPath *path = [self.usersTableView indexPathForSelectedRow];
 //        NSLog(@"Index path row: %li", path.row);
-        NSString *userID = ((User *)self.users[self.indexPathRow]).idStr;
+        NSString *userID = ((User *)self.users[self.indexPathRow]).userID;
         UserTimelineViewController *destinationViewController = (UserTimelineViewController *)segue.destinationViewController;
         [destinationViewController setUserId:userID];
     }

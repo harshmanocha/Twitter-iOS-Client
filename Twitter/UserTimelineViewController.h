@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "TimelineViewController.h"
-#import "LocalizeHelper.h"
 
 @interface UserTimelineViewController : TimelineViewController <RefreshLocalizedTextOnViewProtocol>
 
