@@ -36,13 +36,13 @@
  The API end point to which requests for fetching tweets of a timeline should be made.
  This is an abstract propoerty and should be set up by the subclass before the viewDidLoad of this class is called.
  */
-@property (strong, nonatomic) NSString * twitterRequestApiEndPoint;
+@property (nonatomic) NSString * twitterRequestApiEndPoint;
 
 /**
  The request parameters that need to be sent along with the request to the Twitter API while fetching tweets for the timeline.
  This is an abstract propoerty and should be set up by the subclass before the viewDidLoad of this class is called.
  */
-@property (strong, nonatomic) NSMutableDictionary * requestParams;
+@property (nonatomic) NSMutableDictionary * requestParams;
 
 /**
  The table view containing the tweets.
@@ -53,7 +53,7 @@
 /**
  Array containing the tweets that need to be displayed on the timeline.
  */
-@property (strong, nonatomic) NSArray *tweets;
+@property (nonatomic) NSArray *tweets;
 
 /**
  A delegate implementing functionality of @p TimelineDelegate protocol such that a tweet can be easily posted from the timeline.

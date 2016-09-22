@@ -47,7 +47,7 @@
                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </state>
                         <connections>
-                            <action selector="onReply:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="dak-lz-3Cp"/>
+                            <action selector="onReplyButtonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="9KP-7U-NkZ"/>
                         </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ClE-gS-xf8">
@@ -59,7 +59,7 @@
                         </state>
                         <state key="selected" image="retweet_on"/>
                         <connections>
-                            <action selector="onRetweet:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="jOl-uU-3nn"/>
+                            <action selector="onRetweetButtonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="gMq-v9-bhx"/>
                         </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6pn-x9-Xgs">
@@ -81,7 +81,7 @@
                         </state>
                         <state key="selected" image="favorite_on"/>
                         <connections>
-                            <action selector="onFavorite:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="gad-0I-Gn4"/>
+                            <action selector="onFavoriteButtonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="uz9-53-mQd"/>
                         </connections>
                     </button>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="retweet" translatesAutoresizingMaskIntoConstraints="NO" id="iRd-as-d21">

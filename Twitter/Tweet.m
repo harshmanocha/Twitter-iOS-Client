@@ -99,7 +99,7 @@ NSString * const LanguageLocaleForDateComingFromTwitterAPI = @"en_US_POSIX";
             [[TwitterAPI sharedInstanceOfApiClient] sendTwitterRequest:request completion:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                 if (!data) {
                     self.isRetweeted = [self.isRetweeted negateBool];
-                } else NSLog(@"Retweet successful");
+                }
             }];
         }
     } else {
@@ -114,7 +114,7 @@ NSString * const LanguageLocaleForDateComingFromTwitterAPI = @"en_US_POSIX";
             [[TwitterAPI sharedInstanceOfApiClient] sendTwitterRequest:request completion:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                 if (!data) {
                     self.isRetweeted = [self.isRetweeted negateBool];
-                } else NSLog(@"Unretweet successful");
+                }
             }];
         }
     }

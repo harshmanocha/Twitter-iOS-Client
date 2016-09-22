@@ -118,18 +118,18 @@ NSString * const EmptyString = @"";
     button.selected = highlight;
 }
 
-- (IBAction)onReply:(id)sender {
+- (IBAction)onReplyButtonPressed:(id)sender {
     [self.delegate onReply:self];
 }
 
-- (IBAction)onRetweet:(id)sender {
+- (IBAction)onRetweetButtonPressed:(id)sender {
     BOOL retweeted = [self.tweet retweet];
     self.retweetCountLabel.textColor = retweeted ? [UIColor greenColor] : [UIColor grayColor];
     self.retweetCountLabel.text = ([self.tweet.retweetCount longValue] > 0) ? [LocalizeHelper localizedNumberString:self.tweet.retweetCount] : EmptyString;
     [self highlightButton:self.retweetButton highlight:retweeted];
 }
 
-- (IBAction)onFavorite:(id)sender {
+- (IBAction)onFavoriteButtonPressed:(id)sender {
     Tweet *tweetToFavorite = (self.tweet.retweetedTweet != nil) ? self.tweet.retweetedTweet : self.tweet;
     BOOL favorited = [tweetToFavorite favorite];
     self.favoriteCountLabel.textColor = favorited ? [UIColor orangeColor] : [UIColor grayColor];
