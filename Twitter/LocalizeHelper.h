@@ -25,6 +25,7 @@
 - (void) setLanguage:(NSString*) lang;
 
 + (void)addViewForRefreshingLocalizedText:(id<RefreshLocalizedTextOnViewProtocol>)view;
+
 + (NSString *)localizedNumberString:(NSNumber *)number;
 
 @end

@@ -9,10 +9,11 @@
 #import "LocalizeHelper.h"
 #import "UIKit/UIKit.h"
 
+#define SELECTED_LANGUAGE_CODE LocalizedString(@"language code")
+
 static LocalizeHelper* SingleLocalSystem = nil;
 
 static NSBundle* myBundle = nil;
-
 
 @implementation LocalizeHelper
 
@@ -56,7 +57,7 @@ static NSBundle* myBundle = nil;
 + (NSString *)localizedNumberString:(NSNumber *)number {
     NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
     [numberFormatter setNumberStyle:NSNumberFormatterNoStyle];
-    [numberFormatter setLocale:[NSLocale localeWithLocaleIdentifier:LocalizedString(@"language code")]];
+    [numberFormatter setLocale:[NSLocale localeWithLocaleIdentifier:SELECTED_LANGUAGE_CODE]];
     NSString *numberString = [numberFormatter stringFromNumber:number];
     return numberString;
 }

@@ -52,7 +52,6 @@
 - (void)redrawViews {
     for (id<RefreshLocalizedTextOnViewProtocol> delegate in self.viewsDrawn) {
         if (delegate) {
-//            NSLog(@"Redrawing view");
             [delegate refreshLocalizedText];
         }
     }
